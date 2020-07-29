@@ -1,3 +1,15 @@
 {
-  "name": "steph-js"
+  "name": "steph-js",
+  "scripts": {
+    "test": "ava ./test/**/*.spec.js",
+    "lint:fix": "eslint --fix ./test/**/*",
+    "lint": "eslint ./test/**/*"
+  },
+  "devDependencies": {
+    "ava": "^3.11.0",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.0.5"
+  }
 }
