@@ -1,9 +1,9 @@
 {
   "name": "steph-js",
   "scripts": {
-    "test": "ava ./test/**/*.spec.js",
-    "lint:fix": "eslint --fix ./test/**/*",
-    "lint": "eslint ./test/**/*"
+    "test": "ava ./test/**/*.spec.js --verbose",
+    "lint:fix": "eslint --fix ./test/**/* ./src/**/*",
+    "lint": "eslint ./test/**/* ./src/**/*"
   },
   "devDependencies": {
     "ava": "^3.11.0",
@@ -11,5 +11,10 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "prettier": "^2.0.5"
+  },
+  "dependencies": {
+    "ramda": "^0.27.0",
+    "sanctuary-either": "^2.1.0",
+    "sanctuary-maybe": "^2.1.0"
   }
 }

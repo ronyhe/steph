@@ -3,9 +3,10 @@
     "ecmaVersion": 2017
   },
   "env": {
-    "es6": true
+    "es6": true,
+    "node": true
   },
-  "extends": ["prettier"],
+  "extends": ["eslint:recommended", "prettier"],
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": [

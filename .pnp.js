@@ -48,6 +48,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       [
         "prettier",
         "npm:2.0.5"
+      ],
+      [
+        "ramda",
+        "npm:0.27.0"
+      ],
+      [
+        "sanctuary-either",
+        "npm:2.1.0"
+      ],
+      [
+        "sanctuary-maybe",
+        "npm:2.1.0"
       ]
     ],
     "locationBlacklistData": [
@@ -61,7 +73,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:7.5.0"],
             ["eslint-config-prettier", "virtual:d7ac7786f4cfdcc93d9576a2ff2e876a4b24f98867a96dee5b3dcfb23574f40218368c181b23e27d064cd4862d7c4c80683b8d6162272c51ad1d388e0298984c#npm:6.11.0"],
             ["eslint-plugin-prettier", "virtual:d7ac7786f4cfdcc93d9576a2ff2e876a4b24f98867a96dee5b3dcfb23574f40218368c181b23e27d064cd4862d7c4c80683b8d6162272c51ad1d388e0298984c#npm:3.1.4"],
-            ["prettier", "npm:2.0.5"]
+            ["prettier", "npm:2.0.5"],
+            ["ramda", "npm:0.27.0"],
+            ["sanctuary-either", "npm:2.1.0"],
+            ["sanctuary-maybe", "npm:2.1.0"]
           ],
           "linkType": "SOFT",
         }]
@@ -3229,6 +3244,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["ramda", [
+        ["npm:0.27.0", {
+          "packageLocation": "./.yarn/cache/ramda-npm-0.27.0-0ac931b47f-27b2346803.zip/node_modules/ramda/",
+          "packageDependencies": [
+            ["ramda", "npm:0.27.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["rc", [
         ["npm:1.2.8", {
           "packageLocation": "./.yarn/cache/rc-npm-1.2.8-d6768ac936-ea2b7f7cee.zip/node_modules/rc/",
@@ -3468,6 +3492,56 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["sanctuary-either", [
+        ["npm:2.1.0", {
+          "packageLocation": "./.yarn/cache/sanctuary-either-npm-2.1.0-7cf57a2371-4168557a51.zip/node_modules/sanctuary-either/",
+          "packageDependencies": [
+            ["sanctuary-either", "npm:2.1.0"],
+            ["sanctuary-show", "npm:2.0.0"],
+            ["sanctuary-type-classes", "npm:12.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["sanctuary-maybe", [
+        ["npm:2.1.0", {
+          "packageLocation": "./.yarn/cache/sanctuary-maybe-npm-2.1.0-41aca057a7-da40bfd5d8.zip/node_modules/sanctuary-maybe/",
+          "packageDependencies": [
+            ["sanctuary-maybe", "npm:2.1.0"],
+            ["sanctuary-show", "npm:2.0.0"],
+            ["sanctuary-type-classes", "npm:12.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["sanctuary-show", [
+        ["npm:2.0.0", {
+          "packageLocation": "./.yarn/cache/sanctuary-show-npm-2.0.0-f7d2902df1-6af8b15733.zip/node_modules/sanctuary-show/",
+          "packageDependencies": [
+            ["sanctuary-show", "npm:2.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["sanctuary-type-classes", [
+        ["npm:12.1.0", {
+          "packageLocation": "./.yarn/cache/sanctuary-type-classes-npm-12.1.0-128f6b8bea-8a77126e86.zip/node_modules/sanctuary-type-classes/",
+          "packageDependencies": [
+            ["sanctuary-type-classes", "npm:12.1.0"],
+            ["sanctuary-type-identifiers", "npm:3.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["sanctuary-type-identifiers", [
+        ["npm:3.0.0", {
+          "packageLocation": "./.yarn/cache/sanctuary-type-identifiers-npm-3.0.0-040df49310-e7f50410eb.zip/node_modules/sanctuary-type-identifiers/",
+          "packageDependencies": [
+            ["sanctuary-type-identifiers", "npm:3.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["semver", [
         ["npm:5.7.1", {
           "packageLocation": "./.yarn/cache/semver-npm-5.7.1-40bcea106b-06ff0ed753.zip/node_modules/semver/",
@@ -3684,7 +3758,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:7.5.0"],
             ["eslint-config-prettier", "virtual:d7ac7786f4cfdcc93d9576a2ff2e876a4b24f98867a96dee5b3dcfb23574f40218368c181b23e27d064cd4862d7c4c80683b8d6162272c51ad1d388e0298984c#npm:6.11.0"],
             ["eslint-plugin-prettier", "virtual:d7ac7786f4cfdcc93d9576a2ff2e876a4b24f98867a96dee5b3dcfb23574f40218368c181b23e27d064cd4862d7c4c80683b8d6162272c51ad1d388e0298984c#npm:3.1.4"],
-            ["prettier", "npm:2.0.5"]
+            ["prettier", "npm:2.0.5"],
+            ["ramda", "npm:0.27.0"],
+            ["sanctuary-either", "npm:2.1.0"],
+            ["sanctuary-maybe", "npm:2.1.0"]
           ],
           "linkType": "SOFT",
         }]
