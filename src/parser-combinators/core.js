@@ -1,5 +1,19 @@
 const { evolve, map, prop, reduce, identity } = require('ramda')
 
+const PREDICATE_FAILURE = 'Predicate failure'
+
+const error = message => ({
+    error: message,
+    value: null,
+    rest: null
+})
+
+const success = (value, rest) => ({
+    error: null,
+    value,
+    rest
+})
+
 function transform(transformer, parser) {
     return input => {
         const res = parser(input)
@@ -18,10 +32,7 @@ function seq2(a, b) {
             return resA
         } else {
             const resB = b(resA.rest)
-            return {
-                value: map(prop('value'), [resA, resB]),
-                rest: resB.rest
-            }
+            return success(map(prop('value'), [resA, resB]), resB.rest)
         }
     }
 }
@@ -39,17 +50,17 @@ function guard(pred, parser) {
             if (pred(res.value)) {
                 return res
             } else {
-                return {
-                    result: null,
-                    error: `Does not match predicate: ${res.value}`
-                }
+                return error(PREDICATE_FAILURE)
             }
         }
     }
 }
 
 module.exports = {
+    error,
+    success,
     transform,
     seq,
-    guard
+    guard,
+    PREDICATE_FAILURE
 }
