@@ -18,7 +18,7 @@ function takeChar({ position, text }) {
             result: {
                 value,
                 rest: {
-                    position: advancePosition(position, value),
+                    position: advancePosition(value, position),
                     text: tail(text)
                 }
             }
@@ -26,7 +26,7 @@ function takeChar({ position, text }) {
     }
 }
 
-function advancePosition(position, char) {
+function advancePosition(char, position) {
     if (char === '\n') {
         return {
             line: position.line + 1,
