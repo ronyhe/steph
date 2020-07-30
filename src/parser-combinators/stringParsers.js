@@ -1,4 +1,5 @@
-const { isEmpty, head, tail, ifElse, always } = require('ramda')
+const { isEmpty, head, tail, ifElse, always, equals } = require('ramda')
+const { guard } = require('./core')
 
 const UNEXPECTED_END_OF_INPUT = 'Unexpected end of input'
 
@@ -18,4 +19,6 @@ const takeChar = ifElse(isEmpty, always(error(UNEXPECTED_END_OF_INPUT)), text =>
     success(head(text), tail(text))
 )
 
-module.exports = { takeChar, UNEXPECTED_END_OF_INPUT }
+const char = c => guard(equals(c), takeChar)
+
+module.exports = { char, takeChar, UNEXPECTED_END_OF_INPUT, error, success }

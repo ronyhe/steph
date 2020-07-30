@@ -11,7 +11,7 @@ function transform(transformer, parser) {
     }
 }
 
-function concat2(a, b) {
+function seq2(a, b) {
     return input => {
         const resA = a(input)
         if (resA.error) {
@@ -26,8 +26,8 @@ function concat2(a, b) {
     }
 }
 
-function concat(...parsers) {
-    return reduce(concat2, identity, parsers)
+function seq(...parsers) {
+    return reduce(seq2, identity, parsers)
 }
 
 function guard(pred, parser) {
@@ -50,5 +50,6 @@ function guard(pred, parser) {
 
 module.exports = {
     transform,
-    concat
+    seq,
+    guard
 }
