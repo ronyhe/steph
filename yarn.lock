@@ -3008,49 +3008,6 @@ resolve@^1.10.0:
   languageName: node
   linkType: hard
 
-"sanctuary-either@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "sanctuary-either@npm:2.1.0"
-  dependencies:
-    sanctuary-show: 2.0.0
-    sanctuary-type-classes: 12.1.0
-  checksum: 4168557a512202055629e362bd36a2c1c8678a970862626a3b55bb467c2f8aecc18a5b399a982e06c450fd15a241cf051cef3b9b84a8762c4d47165253bbb036
-  languageName: node
-  linkType: hard
-
-"sanctuary-maybe@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "sanctuary-maybe@npm:2.1.0"
-  dependencies:
-    sanctuary-show: 2.0.0
-    sanctuary-type-classes: 12.1.0
-  checksum: da40bfd5d82611164985a66a5b5d7da3fe5adcbaedd77c3d4fd5da4e8c1c34e057f981b693d5b93bfd938a4cc07d797ef4209f5e8164c6e2705b21734fa501ab
-  languageName: node
-  linkType: hard
-
-"sanctuary-show@npm:2.0.0":
-  version: 2.0.0
-  resolution: "sanctuary-show@npm:2.0.0"
-  checksum: 6af8b1573366998534c71371aa41b6d575ef968cb8432b623f346c1c2b18833ccf55fb5daaea31f51d4d1f243d69690a41e4c319d6b562a87655642c1b24b909
-  languageName: node
-  linkType: hard
-
-"sanctuary-type-classes@npm:12.1.0":
-  version: 12.1.0
-  resolution: "sanctuary-type-classes@npm:12.1.0"
-  dependencies:
-    sanctuary-type-identifiers: 3.0.0
-  checksum: 8a77126e860c34d01f4a033a6d36572a5b3730b1fd832f59334930d4b2ade555a69a136f751c6c0901583018264724fd4ccea31bd7c5b658857396ded67b33ae
-  languageName: node
-  linkType: hard
-
-"sanctuary-type-identifiers@npm:3.0.0":
-  version: 3.0.0
-  resolution: "sanctuary-type-identifiers@npm:3.0.0"
-  checksum: e7f50410eb4df71ffbef7f85fc42305400eaff8f441deb9f7ebf0ba3023deb4d0d454d1dadf50e7313e18c35ef274a5ce36dc853d5bea7e65629d6b17e848327
-  languageName: node
-  linkType: hard
-
 "semver-diff@npm:^3.1.1":
   version: 3.1.1
   resolution: "semver-diff@npm:3.1.1"
@@ -3251,8 +3208,6 @@ resolve@^1.10.0:
     eslint-plugin-prettier: ^3.1.4
     prettier: ^2.0.5
     ramda: ^0.27.0
-    sanctuary-either: ^2.1.0
-    sanctuary-maybe: ^2.1.0
   languageName: unknown
   linkType: soft
 

@@ -13,8 +13,6 @@
     "prettier": "^2.0.5"
   },
   "dependencies": {
-    "ramda": "^0.27.0",
-    "sanctuary-either": "^2.1.0",
-    "sanctuary-maybe": "^2.1.0"
+    "ramda": "^0.27.0"
   }
 }
