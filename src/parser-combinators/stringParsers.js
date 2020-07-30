@@ -1,4 +1,5 @@
 const { isEmpty, head, tail } = require('ramda')
+const { advance } = require('./position')
 
 const UNEXPECTED_END_OF_INPUT = 'Unexpected end of input'
 
@@ -18,24 +19,10 @@ function takeChar({ position, text }) {
             result: {
                 value,
                 rest: {
-                    position: advancePosition(value, position),
+                    position: advance(value, position),
                     text: tail(text)
                 }
             }
-        }
-    }
-}
-
-function advancePosition(char, position) {
-    if (char === '\n') {
-        return {
-            line: position.line + 1,
-            col: 1
-        }
-    } else {
-        return {
-            line: position.line,
-            col: position.col + 1
         }
     }
 }
