@@ -1,4 +1,12 @@
-const { evolve, reduce, append } = require('ramda')
+const {
+    evolve,
+    reduce,
+    append,
+    pipe,
+    ifElse,
+    prop,
+    identity
+} = require('ramda')
 
 const PREDICATE_FAILURE = 'Predicate failure'
 
@@ -14,18 +22,14 @@ const success = (value, rest) => ({
     rest
 })
 
+const ifError = ifElse(prop('error'))
+
+const ifNotError = ifError(identity)
+
 const constant = value => input => success(value, input)
 
-function transform(transformer, parser) {
-    return input => {
-        const res = parser(input)
-        if (res.error) {
-            return res
-        } else {
-            return evolve({ value: transformer }, res)
-        }
-    }
-}
+const transform = (transformer, parser) =>
+    pipe(parser, ifNotError(evolve({ value: transformer })))
 
 function seq(...parsers) {
     return reduce(
