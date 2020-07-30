@@ -2,7 +2,8 @@ const test = require('ava')
 const {
     takeChar,
     UNEXPECTED_END_OF_INPUT,
-    char
+    char,
+    string
 } = require('../../src/parser-combinators/stringParsers')
 const {
     PREDICATE_FAILURE,
@@ -25,4 +26,8 @@ test('takeChar advances lines', t => {
 test('char only accepts the specified char', t => {
     t.deepEqual(char('a')('a'), success('a', ''))
     t.deepEqual(char('a')('b'), error(PREDICATE_FAILURE))
+})
+
+test('string only accepts the specified string', t => {
+    t.deepEqual(string('ab')('ab'), success('ab', ''))
 })
