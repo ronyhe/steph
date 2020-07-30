@@ -11,10 +11,7 @@ test('takeChar fails on empty input', t => {
         text: ''
     }
     t.deepEqual(takeChar(input), {
-        error: {
-            position: INITIAL,
-            message: UNEXPECTED_END_OF_INPUT
-        },
+        error: UNEXPECTED_END_OF_INPUT,
         result: null
     })
 })

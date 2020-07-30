@@ -7,10 +7,7 @@ function takeChar({ position, text }) {
     if (isEmpty(text)) {
         return {
             result: null,
-            error: {
-                message: UNEXPECTED_END_OF_INPUT,
-                position
-            }
+            error: UNEXPECTED_END_OF_INPUT
         }
     } else {
         const value = head(text)
