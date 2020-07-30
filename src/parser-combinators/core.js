@@ -1,4 +1,4 @@
-const { evolve, map, prop, reduce, identity, append } = require('ramda')
+const { evolve, reduce, append } = require('ramda')
 
 const PREDICATE_FAILURE = 'Predicate failure'
 
