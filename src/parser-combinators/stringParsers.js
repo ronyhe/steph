@@ -1,25 +1,19 @@
 const { isEmpty, head, tail } = require('ramda')
-const { advance } = require('./position')
 
 const UNEXPECTED_END_OF_INPUT = 'Unexpected end of input'
 
-function takeChar({ position, text }) {
+function takeChar(text) {
     if (isEmpty(text)) {
         return {
-            result: null,
+            value: null,
+            rest: null,
             error: UNEXPECTED_END_OF_INPUT
         }
     } else {
-        const value = head(text)
         return {
             error: null,
-            result: {
-                value,
-                rest: {
-                    position: advance(value, position),
-                    text: tail(text)
-                }
-            }
+            rest: tail(text),
+            value: head(text)
         }
     }
 }

@@ -3,49 +3,27 @@ const {
     takeChar,
     UNEXPECTED_END_OF_INPUT
 } = require('../../src/parser-combinators/stringParsers')
-const { INITIAL } = require('../../src/parser-combinators/position')
 
 test('takeChar fails on empty input', t => {
-    const input = {
-        position: INITIAL,
-        text: ''
-    }
-    t.deepEqual(takeChar(input), {
+    t.deepEqual(takeChar(''), {
         error: UNEXPECTED_END_OF_INPUT,
-        result: null
+        value: null,
+        rest: null
     })
 })
 
 test('takeChar removes first char and returns it', t => {
-    const input = {
-        position: INITIAL,
-        text: 'a'
-    }
-    t.deepEqual(takeChar(input), {
+    t.deepEqual(takeChar('a'), {
         error: null,
-        result: {
-            value: 'a',
-            rest: {
-                text: '',
-                position: { line: 1, col: 2 }
-            }
-        }
+        value: 'a',
+        rest: ''
     })
 })
 
 test('takeChar advances lines', t => {
-    const input = {
-        position: INITIAL,
-        text: '\n'
-    }
-    t.deepEqual(takeChar(input), {
+    t.deepEqual(takeChar('\n'), {
         error: null,
-        result: {
-            value: '\n',
-            rest: {
-                text: '',
-                position: { line: 2, col: 1 }
-            }
-        }
+        value: '\n',
+        rest: ''
     })
 })
