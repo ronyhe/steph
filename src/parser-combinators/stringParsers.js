@@ -1,21 +1,21 @@
-const { isEmpty, head, tail } = require('ramda')
+const { isEmpty, head, tail, ifElse, always } = require('ramda')
 
 const UNEXPECTED_END_OF_INPUT = 'Unexpected end of input'
 
-function takeChar(text) {
-    if (isEmpty(text)) {
-        return {
-            value: null,
-            rest: null,
-            error: UNEXPECTED_END_OF_INPUT
-        }
-    } else {
-        return {
-            error: null,
-            rest: tail(text),
-            value: head(text)
-        }
-    }
-}
+const error = message => ({
+    error: message,
+    value: null,
+    rest: null
+})
+
+const success = (value, rest) => ({
+    error: null,
+    value,
+    rest
+})
+
+const takeChar = ifElse(isEmpty, always(error(UNEXPECTED_END_OF_INPUT)), text =>
+    success(head(text), tail(text))
+)
 
 module.exports = { takeChar, UNEXPECTED_END_OF_INPUT }
