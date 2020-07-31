@@ -31,6 +31,9 @@ const constant = value => input => success(value, input)
 const transform = (transformer, parser) =>
     pipe(parser, ifNotError(evolve({ value: transformer })))
 
+const transformError = (transformer, parser) =>
+    pipe(parser, ifError(evolve({ error: transformer }), identity))
+
 function seq(...parsers) {
     return reduce(
         (acc, p) => input => {
@@ -72,6 +75,7 @@ module.exports = {
     error,
     success,
     transform,
+    transformError,
     seq,
     guard,
     PREDICATE_FAILURE

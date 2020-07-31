@@ -3,7 +3,8 @@ const {
     takeChar,
     UNEXPECTED_END_OF_INPUT,
     char,
-    string
+    string,
+    stringError
 } = require('../../src/parser-combinators/stringParsers')
 const {
     PREDICATE_FAILURE,
@@ -30,4 +31,5 @@ test('char only accepts the specified char', t => {
 
 test('string only accepts the specified string', t => {
     t.deepEqual(string('ab')('ab'), success('ab', ''))
+    t.deepEqual(string('ab')('ac'), error(stringError('ab')))
 })
