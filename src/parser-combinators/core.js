@@ -24,12 +24,12 @@ const success = (value, rest) => ({
 
 const ifError = ifElse(prop('error'))
 
-const ifNotError = ifError(identity)
+const ifErrorId = ifError(identity)
 
 const constant = value => input => success(value, input)
 
 const transform = (transformer, parser) =>
-    pipe(parser, ifNotError(evolve({ value: transformer })))
+    pipe(parser, ifErrorId(evolve({ value: transformer })))
 
 const transformError = (transformer, parser) =>
     pipe(parser, ifError(evolve({ error: transformer }), identity))
