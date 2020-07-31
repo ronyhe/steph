@@ -5,7 +5,8 @@ const {
     pipe,
     ifElse,
     prop,
-    identity
+    identity,
+    always
 } = require('ramda')
 
 const PREDICATE_FAILURE = 'Predicate failure'
@@ -22,7 +23,9 @@ const success = (value, rest) => ({
     rest
 })
 
-const ifError = ifElse(prop('error'))
+const isError = prop('error')
+
+const ifError = ifElse(isError)
 
 const ifErrorId = ifError(identity)
 
@@ -56,6 +59,30 @@ function seq(...parsers) {
     )
 }
 
+function asManyAsPossible(parser) {
+    return input => {
+        let result = {
+            value: [],
+            error: null,
+            rest: input
+        }
+        while (true) {
+            const res = parser(result.rest)
+            if (isError(res)) {
+                return result
+            } else {
+                result = evolve(
+                    {
+                        value: append(res.value),
+                        rest: always(res.rest)
+                    },
+                    result
+                )
+            }
+        }
+    }
+}
+
 function guard(pred, parser) {
     return input => {
         const res = parser(input)
@@ -78,5 +105,6 @@ module.exports = {
     transformError,
     seq,
     guard,
+    asManyAsPossible,
     PREDICATE_FAILURE
 }

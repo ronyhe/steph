@@ -6,7 +6,8 @@ const {
     always,
     equals,
     map,
-    join
+    join,
+    test
 } = require('ramda')
 const {
     guard,
@@ -14,7 +15,8 @@ const {
     error,
     seq,
     transform,
-    transformError
+    transformError,
+    asManyAsPossible
 } = require('./core')
 
 const UNEXPECTED_END_OF_INPUT = 'Unexpected end of input'
@@ -31,6 +33,11 @@ const string = str => {
     return transformError(always(stringError(str)), parser)
 }
 
+const whitespace = transform(
+    join(''),
+    asManyAsPossible(guard(test(/\s/), takeChar))
+)
+
 const stringError = expectedString => `Expected the string '${expectedString}'`
 
 module.exports = {
@@ -38,5 +45,6 @@ module.exports = {
     string,
     char,
     takeChar,
+    whitespace,
     UNEXPECTED_END_OF_INPUT
 }
