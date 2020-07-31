@@ -27,16 +27,15 @@ const takeChar = ifElse(isEmpty, always(error(UNEXPECTED_END_OF_INPUT)), text =>
 
 const char = c => guard(equals(c), takeChar)
 
+const joinString = charsParser => transform(join(''), charsParser)
+
 const string = str => {
     const letters = map(char, str)
-    const parser = transform(join(''), seq(...letters))
+    const parser = joinString(seq(...letters))
     return transformError(always(stringError(str)), parser)
 }
 
-const whitespace = transform(
-    join(''),
-    asManyAsPossible(guard(test(/\s/), takeChar))
-)
+const whitespace = joinString(asManyAsPossible(guard(test(/\s/), takeChar)))
 
 const stringError = expectedString => `Expected the string '${expectedString}'`
 

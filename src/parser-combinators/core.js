@@ -98,6 +98,15 @@ function guard(pred, parser) {
     }
 }
 
+const optional = parser => input => {
+    const res = parser(input)
+    if (isError(res)) {
+        return success(null, input)
+    } else {
+        return res
+    }
+}
+
 module.exports = {
     error,
     success,
