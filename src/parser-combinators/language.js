@@ -7,14 +7,14 @@ const Kinds = {
     identifier: '<Kind:identifier>'
 }
 
-const giveKind = kind => value => ({ value, kind })
+const giveKindToValue = kind => value => ({ value, kind })
 
-const number = transform(giveKind(Kinds.number), StringParsers.number)
+const giveKindToParser = (kind, parser) =>
+    transform(giveKindToValue(kind), parser)
 
-const identifier = transform(
-    giveKind(Kinds.identifier),
-    StringParsers.identifier
-)
+const number = giveKindToParser(Kinds.number, StringParsers.number)
+
+const identifier = giveKindToParser(Kinds.identifier, StringParsers.identifier)
 
 const expression = options(number, identifier)
 
