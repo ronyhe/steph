@@ -1,5 +1,12 @@
 const { isEmpty, last, reduce, pair } = require('ramda')
-const { transform, options, seq, asManyAsPossible } = require('./core')
+const {
+    transform,
+    options,
+    seq,
+    asManyAsPossible,
+    repSep,
+    between
+} = require('./core')
 const StringParsers = require('./stringParsers')
 
 const Kinds = {
@@ -33,6 +40,10 @@ const accessContinuation = (() => {
     const parser = transform(last, seq(dot, identifier))
     return transform(pair(Builders.access), parser)
 })()
+
+const parens = between(StringParsers.char('('), StringParsers.char(')'))
+
+const commaList = repSep(StringParsers.char(','))
 
 const continuations = asManyAsPossible(accessContinuation)
 
