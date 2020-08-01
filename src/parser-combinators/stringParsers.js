@@ -9,7 +9,8 @@ const {
     join,
     test,
     concat,
-    apply
+    apply,
+    reduce
 } = require('ramda')
 const {
     guard,
@@ -46,18 +47,16 @@ const digit = regexChar(/\d/)
 
 const digits = joinString(asManyAsPossible(digit))
 
-const pFloat = text => {
-    console.log(`pFloat ${text}`)
-    return Number.parseFloat(text)
+const concatStrings = (...stringParsers) => {
+    const concatStrings = reduce(concat, '')
+    return transform(concatStrings, seq(...stringParsers))
 }
 
 const number = (() => {
-    const dotWithDigitsRaw = seq(char('.'), digits)
-    const dotWithDigitsCombined = transform(apply(concat), dotWithDigitsRaw)
-    const dotWithDigitsOrEmpty = withDefault('', dotWithDigitsCombined)
-    const allChars = seq(digits, dotWithDigitsOrEmpty)
-    const allCharsCombined = transform(apply(concat), allChars)
-    return transform(pFloat, allCharsCombined)
+    const dotWithDigitsRaw = concatStrings(char('.'), digits)
+    const dotWithDigitsOrEmpty = withDefault('', dotWithDigitsRaw)
+    const allChars = concatStrings(digits, dotWithDigitsOrEmpty)
+    return transform(Number.parseFloat, allChars)
 })()
 
 const whitespace = joinString(asManyAsPossible(regexChar(/\s/)))
