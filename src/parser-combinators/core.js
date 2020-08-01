@@ -126,9 +126,12 @@ const withDefault = (value, parser) =>
 const between = (open, close) => content =>
     transform(nth(1), seq(open, content, close))
 
-const repSep = sep => rep => {
-    const rest = asManyAsPossible(transform(last, seq(sep, rep)))
-    const parser = transform(prepend, seq(rep, rest))
+const prep = ([a, as]) => prepend(a, as)
+
+const sepRep = sep => rep => {
+    const restParts = transform(last, seq(sep, rep))
+    const rest = asManyAsPossible(restParts)
+    const parser = transform(prep, seq(rep, rest))
     return withDefault([], parser)
 }
 
@@ -144,6 +147,6 @@ module.exports = {
     options,
     withDefault,
     between,
-    repSep,
+    sepRep,
     PREDICATE_FAILURE
 }

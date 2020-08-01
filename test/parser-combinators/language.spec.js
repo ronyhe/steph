@@ -1,6 +1,6 @@
 const test = require('ava')
 const { map } = require('ramda')
-const { parse, Builders } = require('../../src/parser-combinators/language')
+const { parse, Builders, sr } = require('../../src/parser-combinators/language')
 
 const [A, B, C] = map(Builders.identifier, 'abc')
 
@@ -19,10 +19,10 @@ test('parses access', t => {
     t.deepEqual(parse('a.b.c'), Builders.access(abAccess, C))
 })
 
-test.skip('parses calls', t => {
+test('parses calls', t => {
     const { call, access } = Builders
     t.deepEqual(parse('a()'), call(A, []))
-    t.deepEqual(parse('a(b, c)'), call(A, [B, C]))
+    t.deepEqual(parse('a(b,c)'), call(A, [B, C]))
     t.deepEqual(parse('a()()'), call(call(A, []), []))
     t.deepEqual(parse('a.b().c()'), call(access(call(access(A, B), []), C), []))
 })

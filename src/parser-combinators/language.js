@@ -4,7 +4,7 @@ const {
     options,
     seq,
     asManyAsPossible,
-    repSep,
+    sepRep,
     between
 } = require('./core')
 const StringParsers = require('./stringParsers')
@@ -43,16 +43,24 @@ const accessContinuation = (() => {
 
 const parens = between(StringParsers.char('('), StringParsers.char(')'))
 
-const commaList = repSep(StringParsers.char(','))
+const commaList = sepRep(StringParsers.char(','))
 
-const continuations = asManyAsPossible(accessContinuation)
+const continuations = asManyAsPossible(
+    options(accessContinuation, callContinuation)
+)
 
-const expression = (() => {
+function callContinuation(input) {
+    const parser = parens(commaList(expression))
+    const withContinuation = transform(pair(Builders.call), parser)
+    return withContinuation(input)
+}
+
+function expression(input) {
     const parser = seq(terminals, continuations)
     const reducer = (acc, [f, right]) => f(acc, right)
     const combine = ([base, conts]) => reduce(reducer, base, conts)
-    return transform(combine, parser)
-})()
+    return transform(combine, parser)(input)
+}
 
 function parse(text) {
     const result = expression(text)
