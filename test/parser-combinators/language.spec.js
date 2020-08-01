@@ -1,6 +1,6 @@
 const test = require('ava')
 const { map } = require('ramda')
-const { parse, Builders, sr } = require('../../src/parser-combinators/language')
+const { parse, Builders } = require('../../src/parser-combinators/language')
 
 const [A, B, C] = map(Builders.identifier, 'abc')
 
