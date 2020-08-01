@@ -1,4 +1,4 @@
-const { isEmpty, last, reduce } = require('ramda')
+const { isEmpty, last, reduce, pair } = require('ramda')
 const { transform, options, seq, asManyAsPossible } = require('./core')
 const StringParsers = require('./stringParsers')
 
@@ -29,14 +29,17 @@ const terminals = options(number, identifier)
 
 const dot = StringParsers.char('.')
 
-const accessNames = (() => {
-    const access = transform(last, seq(dot, identifier))
-    return asManyAsPossible(access)
+const accessContinuation = (() => {
+    const parser = transform(last, seq(dot, identifier))
+    return transform(pair(Builders.access), parser)
 })()
 
+const continuations = asManyAsPossible(accessContinuation)
+
 const expression = (() => {
-    const parser = seq(terminals, accessNames)
-    const combine = ([base, names]) => reduce(Builders.access, base, names)
+    const parser = seq(terminals, continuations)
+    const reducer = (acc, [f, right]) => f(acc, right)
+    const combine = ([base, conts]) => reduce(reducer, base, conts)
     return transform(combine, parser)
 })()
 
