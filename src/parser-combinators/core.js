@@ -8,10 +8,7 @@ const {
     identity,
     always,
     isNil,
-    compose,
-    isEmpty,
-    head,
-    tail
+    compose
 } = require('ramda')
 
 const PREDICATE_FAILURE = 'Predicate failure'
@@ -73,6 +70,7 @@ function asManyAsPossible(parser) {
             error: null,
             rest: input
         }
+        // eslint-disable-next-line no-constant-condition
         while (true) {
             const res = parser(result.rest)
             if (isError(res)) {
