@@ -1,4 +1,4 @@
-const { isEmpty, last, reduce, pair } = require('ramda')
+const { isEmpty, last, reduce, pair, map } = require('ramda')
 const {
     transform,
     options,
@@ -23,6 +23,8 @@ const Builders = {
     call: (target, args) => ({ target, args, kind: Kinds.call })
 }
 
+const [dot, comma, leftParen, rightParen] = map(StringParsers.char, '.,()')
+
 const giveKindToValue = kind => value => ({ value, kind })
 
 const giveKindToParser = (kind, parser) =>
@@ -34,16 +36,14 @@ const identifier = giveKindToParser(Kinds.identifier, StringParsers.identifier)
 
 const terminals = options(number, identifier)
 
-const dot = StringParsers.char('.')
-
 const accessContinuation = (() => {
     const parser = transform(last, seq(dot, identifier))
     return transform(pair(Builders.access), parser)
 })()
 
-const parens = between(StringParsers.char('('), StringParsers.char(')'))
+const parens = between(leftParen, rightParen)
 
-const commaList = sepRep(StringParsers.char(','))
+const commaList = sepRep(comma)
 
 const continuations = asManyAsPossible(
     options(accessContinuation, callContinuation)
