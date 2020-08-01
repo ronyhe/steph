@@ -105,15 +105,6 @@ function guard(pred, parser) {
     }
 }
 
-const optional = parser => input => {
-    const res = parser(input)
-    if (isError(res)) {
-        return success(null, input)
-    } else {
-        return res
-    }
-}
-
 const twoOptions = (a, b) => input => {
     const res = a(input)
     if (isError(res)) {
@@ -122,6 +113,8 @@ const twoOptions = (a, b) => input => {
         return res
     }
 }
+
+const optional = parser => twoOptions(parser, constant(null))
 
 const _options = reduce(
     twoOptions,
