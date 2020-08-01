@@ -107,21 +107,17 @@ function guard(pred, parser) {
 
 const twoOptions = (a, b) => input => {
     const res = a(input)
-    if (isError(res)) {
-        return b(input)
-    } else {
-        return res
-    }
+    return isError(res) ? b(input) : res
 }
 
 const optional = parser => twoOptions(parser, constant(null))
 
-const _options = reduce(
-    twoOptions,
-    constantError('Cannot parse any of the alternatives')
-)
-
-const options = (...parsers) => _options(parsers)
+const options = (...parsers) =>
+    reduce(
+        twoOptions,
+        constantError('Cannot parse any of the alternatives'),
+        parsers
+    )
 
 const withDefault = (value, parser) =>
     transform(ifElse(isNil, always(value), identity), optional(parser))
