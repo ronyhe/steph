@@ -5,7 +5,15 @@ const StringParsers = require('./stringParsers')
 const Kinds = {
     number: '<Kind:number>',
     identifier: '<Kind:identifier>',
-    access: '<Kinds:access>'
+    access: '<Kinds:access>',
+    call: '<Kinds:call>'
+}
+
+const Builders = {
+    identifier: name => ({ value: name, kind: Kinds.identifier }),
+    number: value => ({ value, kind: Kinds.number }),
+    access: (target, member) => ({ target, member, kind: Kinds.access }),
+    call: (target, args) => ({ target, args, kind: Kinds.call })
 }
 
 const giveKindToValue = kind => value => ({ value, kind })
@@ -28,8 +36,7 @@ const accessNames = (() => {
 
 const expression = (() => {
     const parser = seq(terminals, accessNames)
-    const makeAccess = (left, right) => ({ kind: Kinds.access, left, right })
-    const combine = ([base, names]) => reduce(makeAccess, base, names)
+    const combine = ([base, names]) => reduce(Builders.access, base, names)
     return transform(combine, parser)
 })()
 
@@ -46,4 +53,4 @@ function parse(text) {
     return result.value
 }
 
-module.exports = { parse, Kinds }
+module.exports = { parse, Kinds, Builders }
