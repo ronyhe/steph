@@ -14,3 +14,12 @@ test('parses identifiers', t => {
         value: 'someName'
     })
 })
+
+test('parses access', t => {
+    const access = (left, right) => ({ kind: Kinds.access, left, right })
+    const name = value => ({ kind: Kinds.identifier, value })
+    const abAccess = access(name('a'), name('b'))
+
+    t.deepEqual(parse('a.b'), abAccess)
+    t.deepEqual(parse('a.b.c'), access(abAccess, name('c')))
+})
