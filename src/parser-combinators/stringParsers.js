@@ -9,7 +9,6 @@ const {
     join,
     test,
     concat,
-    apply,
     reduce
 } = require('ramda')
 const {
@@ -59,6 +58,13 @@ const number = (() => {
     return transform(Number.parseFloat, allChars)
 })()
 
+const identifier = (() => {
+    const alpha = regexChar(/[a-zA-Z]/)
+    const alphaNum = regexChar(/[a-zA-Z\d_]/)
+    const restOfWord = joinString(asManyAsPossible(alphaNum))
+    return concatStrings(alpha, restOfWord)
+})()
+
 const whitespace = joinString(asManyAsPossible(regexChar(/\s/)))
 
 module.exports = {
@@ -68,5 +74,6 @@ module.exports = {
     takeChar,
     whitespace,
     number,
+    identifier,
     UNEXPECTED_END_OF_INPUT
 }

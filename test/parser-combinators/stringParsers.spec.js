@@ -6,7 +6,8 @@ const {
     string,
     stringError,
     whitespace,
-    number
+    number,
+    identifier
 } = require('../../src/parser-combinators/stringParsers')
 const {
     PREDICATE_FAILURE,
@@ -44,4 +45,10 @@ test('whitespace', t => {
 test('number', t => {
     t.deepEqual(number('1'), success(1.0, ''))
     t.deepEqual(number('1.2'), success(1.2, ''))
+})
+
+test('identifier', t => {
+    t.deepEqual(identifier('a'), success('a', ''))
+    t.deepEqual(identifier('a12_b'), success('a12_b', ''))
+    t.truthy(identifier('12a').error)
 })

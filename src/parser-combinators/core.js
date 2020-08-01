@@ -7,7 +7,8 @@ const {
     prop,
     identity,
     always,
-    isNil
+    isNil,
+    compose
 } = require('ramda')
 
 const PREDICATE_FAILURE = 'Predicate failure'
@@ -26,17 +27,19 @@ const success = (value, rest) => ({
 
 const isError = prop('error')
 
-const ifError = ifElse(isError)
+const ifErrorElse = ifElse(isError)
 
-const ifErrorId = ifError(identity)
+const ifErrorId = ifErrorElse(identity)
 
 const constant = value => input => success(value, input)
+
+const constantError = compose(always, error)
 
 const transform = (transformer, parser) =>
     pipe(parser, ifErrorId(evolve({ value: transformer })))
 
 const transformError = (transformer, parser) =>
-    pipe(parser, ifError(evolve({ error: transformer }), identity))
+    pipe(parser, ifErrorElse(evolve({ error: transformer }), identity))
 
 function seq(...parsers) {
     return reduce(
@@ -108,6 +111,22 @@ const optional = parser => input => {
     }
 }
 
+const twoOptions = (a, b) => input => {
+    const res = a(input)
+    if (isError(res)) {
+        return b(input)
+    } else {
+        return res
+    }
+}
+
+const options = (...parsers) =>
+    reduce(
+        twoOptions,
+        constantError('Cannot parse any of the alternatives'),
+        parsers
+    )
+
 const withDefault = (value, parser) =>
     transform(ifElse(isNil, always(value), identity), optional(parser))
 
@@ -120,6 +139,7 @@ module.exports = {
     guard,
     asManyAsPossible,
     optional,
+    options,
     withDefault,
     PREDICATE_FAILURE
 }
