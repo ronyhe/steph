@@ -7,3 +7,10 @@ test('parses number', t => {
         value: 15.6
     })
 })
+
+test('parses identifiers', t => {
+    t.deepEqual(parse('someName'), {
+        kind: Kinds.identifier,
+        value: 'someName'
+    })
+})

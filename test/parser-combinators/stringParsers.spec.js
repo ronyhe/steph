@@ -45,6 +45,7 @@ test('whitespace', t => {
 test('number', t => {
     t.deepEqual(number('1'), success(1.0, ''))
     t.deepEqual(number('1.2'), success(1.2, ''))
+    t.truthy(number('').error)
 })
 
 test('identifier', t => {

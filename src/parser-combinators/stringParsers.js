@@ -9,7 +9,8 @@ const {
     join,
     test,
     concat,
-    reduce
+    reduce,
+    complement
 } = require('ramda')
 const {
     guard,
@@ -55,7 +56,8 @@ const number = (() => {
     const dotWithDigitsRaw = concatStrings(char('.'), digits)
     const dotWithDigitsOrEmpty = withDefault('', dotWithDigitsRaw)
     const allChars = concatStrings(digits, dotWithDigitsOrEmpty)
-    return transform(Number.parseFloat, allChars)
+    const notEmpty = guard(complement(isEmpty), allChars)
+    return transform(Number.parseFloat, notEmpty)
 })()
 
 const identifier = (() => {

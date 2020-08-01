@@ -8,7 +8,10 @@ const {
     identity,
     always,
     isNil,
-    compose
+    compose,
+    isEmpty,
+    head,
+    tail
 } = require('ramda')
 
 const PREDICATE_FAILURE = 'Predicate failure'
@@ -120,12 +123,18 @@ const twoOptions = (a, b) => input => {
     }
 }
 
-const options = (...parsers) =>
-    reduce(
-        twoOptions,
-        constantError('Cannot parse any of the alternatives'),
-        parsers
-    )
+const options = (...parsers) => input => {
+    let remaining = parsers
+    while (!isEmpty(remaining)) {
+        const res = head(remaining)(input)
+        if (isError(res)) {
+            remaining = tail(remaining)
+        } else {
+            return res
+        }
+    }
+    return error('Cannot parse any of the alternatives')
+}
 
 const withDefault = (value, parser) =>
     transform(ifElse(isNil, always(value), identity), optional(parser))
