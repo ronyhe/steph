@@ -123,18 +123,12 @@ const twoOptions = (a, b) => input => {
     }
 }
 
-const options = (...parsers) => input => {
-    let remaining = parsers
-    while (!isEmpty(remaining)) {
-        const res = head(remaining)(input)
-        if (isError(res)) {
-            remaining = tail(remaining)
-        } else {
-            return res
-        }
-    }
-    return error('Cannot parse any of the alternatives')
-}
+const _options = reduce(
+    twoOptions,
+    constantError('Cannot parse any of the alternatives')
+)
+
+const options = (...parsers) => _options(parsers)
 
 const withDefault = (value, parser) =>
     transform(ifElse(isNil, always(value), identity), optional(parser))
