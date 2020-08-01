@@ -8,7 +8,10 @@ const {
     identity,
     always,
     isNil,
-    compose
+    compose,
+    nth,
+    last,
+    prepend
 } = require('ramda')
 
 const PREDICATE_FAILURE = 'Predicate failure'
@@ -120,6 +123,15 @@ const options = (...parsers) =>
 const withDefault = (value, parser) =>
     transform(ifElse(isNil, always(value), identity), optional(parser))
 
+const between = (open, close) => content =>
+    transform(nth(1), seq(open, content, close))
+
+const repSep = sep => rep => {
+    const rest = asManyAsPossible(transform(last, seq(sep, rep)))
+    const parser = transform(prepend, seq(rep, rest))
+    return withDefault([], parser)
+}
+
 module.exports = {
     error,
     success,
@@ -131,5 +143,7 @@ module.exports = {
     optional,
     options,
     withDefault,
+    between,
+    repSep,
     PREDICATE_FAILURE
 }
