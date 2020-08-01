@@ -7,7 +7,9 @@ const {
     equals,
     map,
     join,
-    test
+    test,
+    concat,
+    apply
 } = require('ramda')
 const {
     guard,
@@ -16,8 +18,11 @@ const {
     seq,
     transform,
     transformError,
-    asManyAsPossible
+    asManyAsPossible,
+    withDefault
 } = require('./core')
+
+const stringError = expectedString => `Expected the string '${expectedString}'`
 
 const UNEXPECTED_END_OF_INPUT = 'Unexpected end of input'
 
@@ -35,9 +40,27 @@ const string = str => {
     return transformError(always(stringError(str)), parser)
 }
 
-const whitespace = joinString(asManyAsPossible(guard(test(/\s/), takeChar)))
+const regexChar = reg => guard(test(reg), takeChar)
 
-const stringError = expectedString => `Expected the string '${expectedString}'`
+const digit = regexChar(/\d/)
+
+const digits = joinString(asManyAsPossible(digit))
+
+const pFloat = text => {
+    console.log(`pFloat ${text}`)
+    return Number.parseFloat(text)
+}
+
+const number = (() => {
+    const dotWithDigitsRaw = seq(char('.'), digits)
+    const dotWithDigitsCombined = transform(apply(concat), dotWithDigitsRaw)
+    const dotWithDigitsOrEmpty = withDefault('', dotWithDigitsCombined)
+    const allChars = seq(digits, dotWithDigitsOrEmpty)
+    const allCharsCombined = transform(apply(concat), allChars)
+    return transform(pFloat, allCharsCombined)
+})()
+
+const whitespace = joinString(asManyAsPossible(regexChar(/\s/)))
 
 module.exports = {
     stringError,
@@ -45,5 +68,6 @@ module.exports = {
     char,
     takeChar,
     whitespace,
+    number,
     UNEXPECTED_END_OF_INPUT
 }

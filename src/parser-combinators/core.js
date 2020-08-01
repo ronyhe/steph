@@ -6,7 +6,8 @@ const {
     ifElse,
     prop,
     identity,
-    always
+    always,
+    isNil
 } = require('ramda')
 
 const PREDICATE_FAILURE = 'Predicate failure'
@@ -107,6 +108,9 @@ const optional = parser => input => {
     }
 }
 
+const withDefault = (value, parser) =>
+    transform(ifElse(isNil, always(value), identity), optional(parser))
+
 module.exports = {
     error,
     success,
@@ -115,5 +119,7 @@ module.exports = {
     seq,
     guard,
     asManyAsPossible,
+    optional,
+    withDefault,
     PREDICATE_FAILURE
 }

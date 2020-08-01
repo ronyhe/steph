@@ -5,7 +5,8 @@ const {
     char,
     string,
     stringError,
-    whitespace
+    whitespace,
+    number
 } = require('../../src/parser-combinators/stringParsers')
 const {
     PREDICATE_FAILURE,
@@ -38,4 +39,9 @@ test('string only accepts the specified string', t => {
 test('whitespace', t => {
     t.deepEqual(whitespace('  \n \t a'), success('  \n \t ', 'a'))
     t.deepEqual(whitespace('a'), success('', 'a'))
+})
+
+test('number', t => {
+    t.deepEqual(number('1'), success(1.0, ''))
+    t.deepEqual(number('1.2'), success(1.2, ''))
 })
