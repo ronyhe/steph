@@ -10,7 +10,8 @@ const {
     test,
     concat,
     reduce,
-    complement
+    complement,
+    last
 } = require('ramda')
 const {
     guard,
@@ -69,6 +70,8 @@ const identifier = (() => {
 
 const whitespace = joinString(asManyAsPossible(regexChar(/\s/)))
 
+const withWhitespace = parser => transform(last, seq(whitespace, parser))
+
 module.exports = {
     stringError,
     string,
@@ -77,5 +80,6 @@ module.exports = {
     whitespace,
     number,
     identifier,
+    withWhitespace,
     UNEXPECTED_END_OF_INPUT
 }

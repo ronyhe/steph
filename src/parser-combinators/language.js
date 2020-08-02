@@ -1,4 +1,4 @@
-const { isEmpty, last, reduce, pair, map } = require('ramda')
+const { isEmpty, last, reduce, pair, map, compose } = require('ramda')
 const {
     transform,
     options,
@@ -23,7 +23,10 @@ const Builders = {
     call: (target, args) => ({ target, args, kind: Kinds.call })
 }
 
-const [dot, comma, leftParen, rightParen] = map(StringParsers.char, '.,()')
+const [dot, comma, leftParen, rightParen] = map(
+    compose(StringParsers.withWhitespace, StringParsers.char),
+    '.,()'
+)
 
 const giveKindToValue = kind => value => ({ value, kind })
 
@@ -34,7 +37,7 @@ const number = giveKindToParser(Kinds.number, StringParsers.number)
 
 const identifier = giveKindToParser(Kinds.identifier, StringParsers.identifier)
 
-const terminals = options(number, identifier)
+const terminals = StringParsers.withWhitespace(options(number, identifier))
 
 const accessContinuation = (() => {
     const parser = transform(last, seq(dot, identifier))
