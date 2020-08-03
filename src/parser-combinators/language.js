@@ -5,7 +5,6 @@ const {
     pair,
     map,
     compose,
-    prop,
     remove,
     fromPairs
 } = require('ramda')
@@ -94,9 +93,8 @@ function obj(input) {
 }
 
 function func(input) {
-    const iden = StringParsers.withWhitespace(identifier)
-    const identifierList = parens(commaList(iden))
-    const singleArg = transform(Array, identifier)
+    const identifierList = parens(commaList(name))
+    const singleArg = transform(Array, name)
     const args = options(singleArg, identifierList)
     const makeFunction = ([params, , body]) => Builders.func(params, body)
     const parser = transform(makeFunction, seq(args, arrow, expression))

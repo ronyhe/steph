@@ -35,17 +35,20 @@ test('parses spaces', t => {
 
 test('parses simple functions', t => {
     const { func, call, access } = Builders
-    t.deepEqual(parse('a => b'), func([A], B))
-    t.deepEqual(parse('a => b()'), func([A], call(B, [])))
-    t.deepEqual(parse('a => b.c'), func([A], access(B, C)))
-    t.deepEqual(parse('a => b => c'), func([A], func([B], C)))
+    t.deepEqual(parse('a => b'), func(['a'], B))
+    t.deepEqual(parse('a => b()'), func(['a'], call(B, [])))
+    t.deepEqual(parse('a => b.c'), func(['a'], access(B, C)))
+    t.deepEqual(parse('a => b => c'), func(['a'], func(['b'], C)))
 })
 
 test('parses functions with arg lists', t => {
     const { func } = Builders
-    t.deepEqual(parse('(a) => b'), func([A], B))
-    t.deepEqual(parse('(a, b) => c'), func([A, B], C))
-    t.deepEqual(parse('(a, b) => (a, b) => c'), func([A, B], func([A, B], C)))
+    t.deepEqual(parse('(a) => b'), func(['a'], B))
+    t.deepEqual(parse('(a, b) => c'), func(['a', 'b'], C))
+    t.deepEqual(
+        parse('(a, b) => (a, b) => c'),
+        func(['a', 'b'], func(['a', 'b'], C))
+    )
 })
 
 test('fails on non-sensical function arguments', t => {
