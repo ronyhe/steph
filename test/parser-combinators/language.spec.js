@@ -32,3 +32,12 @@ test('parses spaces', t => {
     t.deepEqual(parse('a(b, c)'), call(A, [B, C]))
     t.deepEqual(parse('a\n    .b'), access(A, B))
 })
+
+test('parses functions', t => {
+    const { func, call } = Builders
+    t.deepEqual(parse('a => b'), func(B, [A]))
+    t.deepEqual(parse('(a) => b'), func(B, [A]))
+    t.deepEqual(parse('a => b()'), func(call(B, []), [A]))
+    t.deepEqual(parse('(a, b) => c'), func(C, [A, B]))
+    t.deepEqual(parse('a => b => c'), func(func(C, [B])), [A])
+})

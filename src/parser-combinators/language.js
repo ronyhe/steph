@@ -13,14 +13,16 @@ const Kinds = {
     number: '<Kind:number>',
     identifier: '<Kind:identifier>',
     access: '<Kinds:access>',
-    call: '<Kinds:call>'
+    call: '<Kinds:call>',
+    func: '<Kinds:func>'
 }
 
 const Builders = {
     identifier: name => ({ value: name, kind: Kinds.identifier }),
     number: value => ({ value, kind: Kinds.number }),
     access: (target, member) => ({ target, member, kind: Kinds.access }),
-    call: (target, args) => ({ target, args, kind: Kinds.call })
+    call: (target, args) => ({ target, args, kind: Kinds.call }),
+    func: (body, args) => ({ body, args, kind: Kinds.func })
 }
 
 const [dot, comma, leftParen, rightParen] = map(
