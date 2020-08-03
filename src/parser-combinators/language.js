@@ -53,6 +53,8 @@ const number = giveKindToParser(Kinds.number, StringParsers.number)
 
 const identifier = giveKindToParser(Kinds.identifier, StringParsers.identifier)
 
+const name = StringParsers.withWhitespace(StringParsers.identifier)
+
 const terminals = StringParsers.withWhitespace(
     options(obj, func, number, identifier)
 )
@@ -85,9 +87,7 @@ function parensExpressionList(input) {
 }
 
 function obj(input) {
-    const iden = StringParsers.withWhitespace(identifier)
-    const makeEntry = ([name, , ex]) => [name.value, ex]
-    const entry = transform(makeEntry, seq(iden, colon, expression))
+    const entry = transform(remove(1, 1), seq(name, colon, expression))
     const entries = transform(fromPairs, commaList(entry))
     const parser = transform(Builders.obj, curlies(entries))
     return parser(input)
