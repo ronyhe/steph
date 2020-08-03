@@ -41,7 +41,9 @@ const number = giveKindToParser(Kinds.number, StringParsers.number)
 
 const identifier = giveKindToParser(Kinds.identifier, StringParsers.identifier)
 
-const terminals = StringParsers.withWhitespace(options(number, identifier))
+const terminals = StringParsers.withWhitespace(
+    options(func, number, identifier)
+)
 
 const accessContinuation = (() => {
     const parser = transform(last, seq(dot, identifier))
@@ -53,20 +55,29 @@ const parens = between(leftParen, rightParen)
 const commaList = sepRep(comma)
 
 const continuations = asManyAsPossible(
-    options(accessContinuation, callContinuation, arrowContinuation)
+    options(accessContinuation, callContinuation)
 )
 
 function callContinuation(input) {
-    const parser = parens(commaList(expression))
-    const withContinuation = transform(pair(Builders.call), parser)
+    const withContinuation = transform(
+        pair(Builders.call),
+        parensExpressionList
+    )
     return withContinuation(input)
 }
 
-function arrowContinuation(input) {
-    const parser = transform(last, seq(arrow, expression))
-    const combineSingleArgument = (arg, body) => Builders.func([arg], body)
-    const withContinuation = transform(pair(combineSingleArgument), parser)
-    return withContinuation(input)
+function parensExpressionList(input) {
+    return parens(commaList(expression))(input)
+}
+
+function func(input) {
+    const iden = StringParsers.withWhitespace(identifier)
+    const identifierList = parens(commaList(iden))
+    const singleArg = transform(Array, identifier)
+    const args = options(singleArg, identifierList)
+    const makeFunction = ([params, , body]) => Builders.func(params, body)
+    const parser = transform(makeFunction, seq(args, arrow, expression))
+    return parser(input)
 }
 
 function expression(input) {

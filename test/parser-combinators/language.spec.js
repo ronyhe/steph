@@ -41,14 +41,15 @@ test('parses simple functions', t => {
     t.deepEqual(parse('a => b => c'), func([A], func([B], C)))
 })
 
-test.skip('parses functions with arg lists', t => {
+test('parses functions with arg lists', t => {
     const { func } = Builders
     t.deepEqual(parse('(a) => b'), func([A], B))
     t.deepEqual(parse('(a, b) => c'), func([A, B], C))
+    t.deepEqual(parse('(a, b) => (a, b) => c'), func([A, B], func([A, B], C)))
 })
 
-test.skip('fails on non-sensical function arguments', t => {
-    t.truthy(parse('1 => a').error)
-    t.truthy(parse('(a, b)').error)
-    t.truthy(parse('a.b => c').error)
+test('fails on non-sensical function arguments', t => {
+    t.throws(() => parse('1 => a'))
+    t.throws(() => parse('(a, b)'))
+    t.throws(() => parse('a.b => c'))
 })
