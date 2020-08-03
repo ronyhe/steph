@@ -24,7 +24,8 @@ const Kinds = {
     access: '<Kinds:access>',
     call: '<Kinds:call>',
     func: '<Kinds:func>',
-    obj: '<Kinds:obj>'
+    obj: '<Kinds:obj>',
+    list: '<Kinds:list>'
 }
 
 const Builders = {
@@ -33,13 +34,21 @@ const Builders = {
     access: (target, member) => ({ target, member, kind: Kinds.access }),
     call: (target, args) => ({ target, args, kind: Kinds.call }),
     func: (args, body) => ({ body, args, kind: Kinds.func }),
-    obj: entries => ({ entries, kind: Kinds.obj })
+    obj: entries => ({ entries, kind: Kinds.obj }),
+    list: values => ({ values, kind: Kinds.list })
 }
 
-const [dot, comma, leftParen, rightParen, leftCurly, rightCurly, colon] = map(
-    compose(StringParsers.withWhitespace, StringParsers.char),
-    '.,(){}:'
-)
+const [
+    dot,
+    comma,
+    leftParen,
+    rightParen,
+    leftCurly,
+    rightCurly,
+    leftBracket,
+    rightBracket,
+    colon
+] = map(compose(StringParsers.withWhitespace, StringParsers.char), '.,(){}[]:')
 
 const arrow = StringParsers.withWhitespace(StringParsers.string('=>'))
 
@@ -55,7 +64,7 @@ const identifier = giveKindToParser(Kinds.identifier, StringParsers.identifier)
 const name = StringParsers.withWhitespace(StringParsers.identifier)
 
 const terminals = StringParsers.withWhitespace(
-    options(obj, func, number, identifier)
+    options(list, obj, func, number, identifier)
 )
 
 const accessContinuation = (() => {
@@ -66,6 +75,8 @@ const accessContinuation = (() => {
 const parens = between(leftParen, rightParen)
 
 const curlies = between(leftCurly, rightCurly)
+
+const brackets = between(leftBracket, rightBracket)
 
 const commaList = sepRep(comma)
 
@@ -90,6 +101,10 @@ function obj(input) {
     const entries = transform(fromPairs, commaList(entry))
     const parser = transform(Builders.obj, curlies(entries))
     return parser(input)
+}
+
+function list(input) {
+    return transform(Builders.list, brackets(commaList(expression)))(input)
 }
 
 function func(input) {

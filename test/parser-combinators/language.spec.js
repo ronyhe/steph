@@ -63,3 +63,10 @@ test('parses objects', t => {
     t.deepEqual(parse('{a: b}'), obj({ a: B }))
     t.deepEqual(parse('{a: b, c: a}'), obj({ a: B, c: A }))
 })
+
+test('parses lists', t => {
+    const { list } = Builders
+    t.deepEqual(parse('[]'), list([]))
+    t.deepEqual(parse('[a]'), list([A]))
+    t.deepEqual(parse('[a, b]'), list([A, B]))
+})
