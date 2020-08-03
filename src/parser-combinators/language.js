@@ -22,13 +22,15 @@ const Builders = {
     number: value => ({ value, kind: Kinds.number }),
     access: (target, member) => ({ target, member, kind: Kinds.access }),
     call: (target, args) => ({ target, args, kind: Kinds.call }),
-    func: (body, args) => ({ body, args, kind: Kinds.func })
+    func: (args, body) => ({ body, args, kind: Kinds.func })
 }
 
 const [dot, comma, leftParen, rightParen] = map(
     compose(StringParsers.withWhitespace, StringParsers.char),
     '.,()'
 )
+
+const arrow = StringParsers.whitespace(StringParsers.string('=>'))
 
 const giveKindToValue = kind => value => ({ value, kind })
 
