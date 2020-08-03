@@ -53,3 +53,10 @@ test('fails on non-sensical function arguments', t => {
     t.throws(() => parse('(a, b)'))
     t.throws(() => parse('a.b => c'))
 })
+
+test('parses objects', t => {
+    const { obj } = Builders
+    t.deepEqual(parse('{}'), obj({}))
+    t.deepEqual(parse('{a: b}'), obj({ a: B }))
+    t.deepEqual(parse('{a: b, c: a}'), obj({ a: B, c: A }))
+})

@@ -1,4 +1,14 @@
-const { isEmpty, last, reduce, pair, map, compose } = require('ramda')
+const {
+    isEmpty,
+    last,
+    reduce,
+    pair,
+    map,
+    compose,
+    prop,
+    remove,
+    fromPairs
+} = require('ramda')
 const {
     transform,
     options,
@@ -14,7 +24,8 @@ const Kinds = {
     identifier: '<Kind:identifier>',
     access: '<Kinds:access>',
     call: '<Kinds:call>',
-    func: '<Kinds:func>'
+    func: '<Kinds:func>',
+    obj: '<Kinds:obj>'
 }
 
 const Builders = {
@@ -22,12 +33,13 @@ const Builders = {
     number: value => ({ value, kind: Kinds.number }),
     access: (target, member) => ({ target, member, kind: Kinds.access }),
     call: (target, args) => ({ target, args, kind: Kinds.call }),
-    func: (args, body) => ({ body, args, kind: Kinds.func })
+    func: (args, body) => ({ body, args, kind: Kinds.func }),
+    obj: entries => ({ entries, kind: Kinds.obj })
 }
 
-const [dot, comma, leftParen, rightParen] = map(
+const [dot, comma, leftParen, rightParen, leftCurly, rightCurly, colon] = map(
     compose(StringParsers.withWhitespace, StringParsers.char),
-    '.,()'
+    '.,(){}:'
 )
 
 const arrow = StringParsers.withWhitespace(StringParsers.string('=>'))
@@ -42,7 +54,7 @@ const number = giveKindToParser(Kinds.number, StringParsers.number)
 const identifier = giveKindToParser(Kinds.identifier, StringParsers.identifier)
 
 const terminals = StringParsers.withWhitespace(
-    options(func, number, identifier)
+    options(obj, func, number, identifier)
 )
 
 const accessContinuation = (() => {
@@ -51,6 +63,8 @@ const accessContinuation = (() => {
 })()
 
 const parens = between(leftParen, rightParen)
+
+const curlies = between(leftCurly, rightCurly)
 
 const commaList = sepRep(comma)
 
@@ -68,6 +82,15 @@ function callContinuation(input) {
 
 function parensExpressionList(input) {
     return parens(commaList(expression))(input)
+}
+
+function obj(input) {
+    const iden = StringParsers.withWhitespace(identifier)
+    const makeEntry = ([name, , ex]) => [name.value, ex]
+    const entry = transform(makeEntry, seq(iden, colon, expression))
+    const entries = transform(fromPairs, commaList(entry))
+    const parser = transform(Builders.obj, curlies(entries))
+    return parser(input)
 }
 
 function func(input) {
