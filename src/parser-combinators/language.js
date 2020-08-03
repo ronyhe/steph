@@ -30,7 +30,7 @@ const [dot, comma, leftParen, rightParen] = map(
     '.,()'
 )
 
-const arrow = StringParsers.whitespace(StringParsers.string('=>'))
+const arrow = StringParsers.withWhitespace(StringParsers.string('=>'))
 
 const giveKindToValue = kind => value => ({ value, kind })
 
@@ -53,12 +53,19 @@ const parens = between(leftParen, rightParen)
 const commaList = sepRep(comma)
 
 const continuations = asManyAsPossible(
-    options(accessContinuation, callContinuation)
+    options(accessContinuation, callContinuation, arrowContinuation)
 )
 
 function callContinuation(input) {
     const parser = parens(commaList(expression))
     const withContinuation = transform(pair(Builders.call), parser)
+    return withContinuation(input)
+}
+
+function arrowContinuation(input) {
+    const parser = transform(last, seq(arrow, expression))
+    const combineSingleArgument = (arg, body) => Builders.func([arg], body)
+    const withContinuation = transform(pair(combineSingleArgument), parser)
     return withContinuation(input)
 }
 
