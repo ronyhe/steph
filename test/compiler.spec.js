@@ -6,54 +6,40 @@ test('Adds a ramda require', t => {
 })
 
 test('Binds unbound variables to ramda, if they exist there', t => {
-    t.deepEqual(compile('prop'), 'const R = require("ramda");\n\nR.prop;')
+    compileTest(t, 'prop', 'R.prop;')
 })
 
 test('Does not bind unbound variables to ramda if they do not exist there', t => {
-    t.deepEqual(compile('someName'), 'const R = require("ramda");\n\nsomeName;')
+    compileTest(t, 'someName', 'someName;')
 })
 
 test('Does not bind variables that are already bound. Even if they exist in ramda', t => {
-    t.deepEqual(
-        compile('const prop = null;prop;'),
-        'const R = require("ramda");\n\nconst prop = null;\nprop;'
-    )
+    compileTest(t, 'const prop = null;prop;', 'const prop = null;\nprop;')
 })
 
 test('Curries arrow functions', t => {
-    t.deepEqual(
-        compile('() => {}'),
-        'const R = require("ramda");\n\nR.curry(() => {});'
-    )
-
-    t.deepEqual(
-        compile('(a) => {}'),
-        'const R = require("ramda");\n\nR.curry(a => {});'
-    )
-
-    t.deepEqual(
-        compile('a => {}'),
-        'const R = require("ramda");\n\nR.curry(a => {});'
-    )
-
-    t.deepEqual(
-        compile('(a, b) => {}'),
-        'const R = require("ramda");\n\nR.curry((a, b) => {});'
-    )
-
-    t.deepEqual(
-        compile('a => b => c'),
-        'const R = require("ramda");\n\nR.curry(a => R.curry(b => c));'
-    )
+    compileTest(t, '() => {}', 'R.curry(() => {});')
+    compileTest(t, '(a) => {}', 'R.curry(a => {});')
+    compileTest(t, 'a => {}', 'R.curry(a => {});')
+    compileTest(t, '(a, b) => {}', 'R.curry((a, b) => {});')
+    compileTest(t, 'a => b => c', 'R.curry(a => R.curry(b => c));')
 })
 
 test('Curries function expressions', t => {
-    t.deepEqual(
-        compile('const a = function () {}'),
-        'const R = require("ramda");\n\nconst a = R.curry(function () {});'
+    compileTest(
+        t,
+        'const a = function () {}',
+        'const a = R.curry(function () {});'
     )
 })
 
 test('Throws an error on function declarations', t => {
     t.throws(() => compile('function fn() {}'))
 })
+
+function compileTest(t, sourceText, expectedOutput) {
+    t.deepEqual(
+        compile(sourceText),
+        `const R = require("ramda");\n\n${expectedOutput}`
+    )
+}
