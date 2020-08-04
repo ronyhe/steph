@@ -46,8 +46,10 @@ function transformAst(ast, throwFunctionDeclarationError) {
                 path.skip()
             }
         },
-        Program(path) {
-            path.node.body.unshift(createRamdaRequire())
+        Program: {
+            exit(path) {
+                path.node.body.unshift(createRamdaRequire())
+            }
         }
     }
     traverse(ast, visitor)
@@ -70,22 +72,5 @@ function compile(sourceText) {
 }
 
 module.exports = {
-    transformAst,
-    createRamdaRequire
+    compile
 }
-
-function main() {
-    const code = `
-        import a from './lame'
-        const b = require('stupid')
-
-        /*function someFunc(a, b) {
-            prop('a')
-        }*/
-
-        const moreFunc = (a) => (b) => prop('a')
-    `
-    console.log(compile(code))
-}
-
-// main()
