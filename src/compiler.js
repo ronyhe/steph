@@ -66,8 +66,7 @@ function compile(sourceText, ramdaImport) {
         },
         Program: {
             exit(path) {
-                const importType = defaultTo(RamdaImport.none, ramdaImport)
-                const importAst = ramdaImportAst(importType)
+                const importAst = ramdaImportAst(ramdaImport)
                 path.node.body.unshift(importAst)
             }
         },
