@@ -38,11 +38,15 @@ test('Adds ramda require when ramdaImport is set to "node"', t => {
 })
 
 test('Adds ramda import according to the ramdaImport parameter', t => {
-    t.deepEqual(compile('', RamdaImport.es6), 'import * as R from "ramda";')
-    t.deepEqual(compile('', RamdaImport.node), 'const R = require("ramda");')
-    t.deepEqual(compile('', RamdaImport.none), '')
+    importTest(t, RamdaImport.es6, 'import * as R from "ramda";')
+    importTest(t, RamdaImport.node, 'const R = require("ramda");')
+    importTest(t, RamdaImport.none, '')
 })
 
 function compileTest(t, sourceText, expectedOutput) {
     t.deepEqual(compile(sourceText, RamdaImport.none), expectedOutput)
+}
+
+function importTest(t, importType, expectedOutput) {
+    t.deepEqual(compile('', importType), expectedOutput)
 }
