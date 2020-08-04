@@ -5,10 +5,10 @@ const generator = require('@babel/generator').default
 const { codeFrameColumns } = require('@babel/code-frame')
 const R = require('ramda')
 
-function createCurriedArrowFunction(originalArrowFunction) {
+function createCurriedFunction(originalFunction) {
     const t = babelTypes
     const ramdaCurry = createRamdaMember('curry')
-    return t.callExpression(ramdaCurry, [originalArrowFunction])
+    return t.callExpression(ramdaCurry, [originalFunction])
 }
 
 function createRamdaMember(name) {
@@ -33,9 +33,15 @@ function transformAst(ast, throwFunctionDeclarationError) {
         FunctionDeclaration(path) {
             throwFunctionDeclarationError(path)
         },
+        FunctionExpression: {
+            exit(path) {
+                path.replaceWith(createCurriedFunction(path.node))
+                path.skip()
+            }
+        },
         ArrowFunctionExpression: {
             exit(path) {
-                path.replaceWith(createCurriedArrowFunction(path.node))
+                path.replaceWith(createCurriedFunction(path.node))
                 path.skip()
             }
         },

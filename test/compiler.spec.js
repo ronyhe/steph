@@ -47,6 +47,13 @@ test('Curries arrow functions', t => {
     )
 })
 
+test('Curries function expressions', t => {
+    t.deepEqual(
+        compile('const a = function () {}'),
+        'const R = require("ramda");\n\nconst a = R.curry(function () {});'
+    )
+})
+
 test('Throws an error on function declarations', t => {
     t.throws(() => compile('function fn() {}'))
 })
