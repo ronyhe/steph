@@ -4,7 +4,7 @@ const babelTypes = require('@babel/types')
 const generator = require('@babel/generator').default
 const { codeFrameColumns } = require('@babel/code-frame')
 const R = require('ramda')
-const { includes, keys, defaultTo, pipe } = R
+const { includes, keys, defaultTo } = R
 
 const RamdaImport = {
     node: 'node',
