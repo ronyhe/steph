@@ -46,3 +46,7 @@ test('Curries arrow functions', t => {
         'const R = require("ramda");\n\nR.curry(a => R.curry(b => c));'
     )
 })
+
+test('Throws an error on function declarations', t => {
+    t.throws(() => compile('function fn() {}'))
+})
