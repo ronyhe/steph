@@ -30,6 +30,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     ],
     "fallbackPool": [
       [
+        "@babel/code-frame",
+        "npm:7.10.4"
+      ],
+      [
+        "@babel/generator",
+        "npm:7.11.0"
+      ],
+      [
         "@babel/parser",
         "npm:7.11.0"
       ],
@@ -73,6 +81,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {
           "packageLocation": "./",
           "packageDependencies": [
+            ["@babel/code-frame", "npm:7.10.4"],
+            ["@babel/generator", "npm:7.11.0"],
             ["@babel/parser", "npm:7.11.0"],
             ["@babel/traverse", "npm:7.11.0"],
             ["@babel/types", "npm:7.11.0"],
@@ -3827,6 +3837,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",
           "packageDependencies": [
             ["steph-js", "workspace:."],
+            ["@babel/code-frame", "npm:7.10.4"],
+            ["@babel/generator", "npm:7.11.0"],
             ["@babel/parser", "npm:7.11.0"],
             ["@babel/traverse", "npm:7.11.0"],
             ["@babel/types", "npm:7.11.0"],

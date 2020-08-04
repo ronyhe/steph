@@ -3313,6 +3313,8 @@ resolve@^1.10.0:
   version: 0.0.0-use.local
   resolution: "steph-js@workspace:."
   dependencies:
+    "@babel/code-frame": ^7.10.4
+    "@babel/generator": ^7.11.0
     "@babel/parser": ^7.11.0
     "@babel/traverse": ^7.11.0
     "@babel/types": ^7.11.0
