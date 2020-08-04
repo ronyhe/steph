@@ -56,7 +56,7 @@ function ramdaImportAst(ramdaImportType) {
     throw new Error(`Unknown ramda import type: ${ramdaImportType}`)
 }
 
-function compile(sourceText, ramdaImportType) {
+function compile(sourceText, ramdaImport) {
     const ast = parser.parse(sourceText, { sourceType: 'module' })
     traverse(ast, {
         FunctionExpression: {
@@ -81,7 +81,7 @@ function compile(sourceText, ramdaImportType) {
         Program: {
             exit(path) {
                 path.node.body.unshift(
-                    ramdaImportAst(defaultTo(RamdaImport.none, ramdaImportType))
+                    ramdaImportAst(defaultTo(RamdaImport.none, ramdaImport))
                 )
             }
         },
