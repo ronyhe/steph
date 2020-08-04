@@ -1,9 +1,5 @@
 const test = require('ava')
-const { compile } = require('../src/compiler')
-
-test('Adds a ramda require', t => {
-    t.deepEqual(compile(''), 'const R = require("ramda");')
-})
+const { compile, RamdaImport } = require('../src/compiler')
 
 test('Binds unbound variables to ramda, if they exist there', t => {
     compileTest(t, 'prop', 'R.prop;')
@@ -37,9 +33,16 @@ test('Throws an error on function declarations', t => {
     t.throws(() => compile('function fn() {}'))
 })
 
+test('Adds ramda require when ramdaImport is set to "node"', t => {
+    t.deepEqual(compile('', RamdaImport.node), 'const R = require("ramda");')
+})
+
+test('Adds ramda import according to the ramdaImport parameter', t => {
+    t.deepEqual(compile('', RamdaImport.es6), 'import * as R from "ramda";')
+    t.deepEqual(compile('', RamdaImport.node), 'const R = require("ramda");')
+    t.deepEqual(compile('', RamdaImport.none), '')
+})
+
 function compileTest(t, sourceText, expectedOutput) {
-    t.deepEqual(
-        compile(sourceText),
-        `const R = require("ramda");\n\n${expectedOutput}`
-    )
+    t.deepEqual(compile(sourceText, RamdaImport.none), expectedOutput)
 }
