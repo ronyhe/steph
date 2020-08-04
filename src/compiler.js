@@ -1,6 +1,6 @@
 const parser = require('@babel/parser')
 const traverse = require('@babel/traverse').default
-const babelTypes = require('@babel/types')
+const t = require('@babel/types')
 const generator = require('@babel/generator').default
 const { codeFrameColumns } = require('@babel/code-frame')
 const R = require('ramda')
@@ -20,18 +20,15 @@ const CurryVisitor = {
 }
 
 function createCurriedFunction(originalFunction) {
-    const t = babelTypes
     const ramdaCurry = createRamdaMember('curry')
     return t.callExpression(ramdaCurry, [originalFunction])
 }
 
 function createRamdaMember(name) {
-    const t = babelTypes
     return t.memberExpression(t.identifier('R'), t.identifier(name))
 }
 
 function ramdaRequireImport() {
-    const t = babelTypes
     return t.variableDeclaration('const', [
         t.variableDeclarator(
             t.identifier('R'),
@@ -43,7 +40,6 @@ function ramdaRequireImport() {
 }
 
 function ramdaEs6Import() {
-    const t = babelTypes
     return t.importDeclaration(
         [t.importNamespaceSpecifier(t.identifier('R'))],
         t.stringLiteral('ramda')
