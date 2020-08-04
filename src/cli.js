@@ -35,7 +35,7 @@ function main() {
     const file = head(args)
     const importStyle = ramdaImport(args)
 
-    const sourceText = fs.readFileSync(file)
+    const sourceText = fs.readFileSync(file, { encoding: 'utf8' })
     console.log(compile(sourceText, importStyle))
 }
 
