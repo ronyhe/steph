@@ -7,9 +7,9 @@ const R = require('ramda')
 const { includes, keys, defaultTo, cond, always, equals } = R
 
 const RamdaImport = {
-    node: 'node',
-    es6: 'es6',
-    none: 'none'
+    node: '<RamdaImport:node>',
+    es6: '<RamdaImport:es6>',
+    none: '<RamdaImport:none>'
 }
 
 const CurryVisitor = {
