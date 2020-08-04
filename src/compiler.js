@@ -12,6 +12,13 @@ const RamdaImport = {
     none: 'none'
 }
 
+const CurryVisitor = {
+    exit: path => {
+        path.replaceWith(createCurriedFunction(path.node))
+        path.skip()
+    }
+}
+
 function createCurriedFunction(originalFunction) {
     const t = babelTypes
     const ramdaCurry = createRamdaMember('curry')
@@ -59,18 +66,8 @@ function ramdaImportAst(ramdaImportType) {
 function compile(sourceText, ramdaImport) {
     const ast = parser.parse(sourceText, { sourceType: 'module' })
     traverse(ast, {
-        FunctionExpression: {
-            exit(path) {
-                path.replaceWith(createCurriedFunction(path.node))
-                path.skip()
-            }
-        },
-        ArrowFunctionExpression: {
-            exit(path) {
-                path.replaceWith(createCurriedFunction(path.node))
-                path.skip()
-            }
-        },
+        FunctionExpression: CurryVisitor,
+        ArrowFunctionExpression: CurryVisitor,
         Identifier(path) {
             const name = path.node.name
             if (!path.scope.hasBinding(name) && includes(name, keys(R))) {
