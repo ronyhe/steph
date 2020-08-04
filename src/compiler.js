@@ -4,7 +4,7 @@ const babelTypes = require('@babel/types')
 const generator = require('@babel/generator').default
 const { codeFrameColumns } = require('@babel/code-frame')
 const R = require('ramda')
-const { includes, keys, defaultTo } = R
+const { includes, keys, defaultTo, pipe } = R
 
 const RamdaImport = {
     node: 'node',
@@ -77,9 +77,9 @@ function compile(sourceText, ramdaImport) {
         },
         Program: {
             exit(path) {
-                path.node.body.unshift(
-                    ramdaImportAst(defaultTo(RamdaImport.none, ramdaImport))
-                )
+                const importType = defaultTo(RamdaImport.none, ramdaImport)
+                const importAst = ramdaImportAst(importType)
+                path.node.body.unshift(importAst)
             }
         },
         FunctionDeclaration(path) {
