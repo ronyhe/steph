@@ -28,7 +28,7 @@ function createRamdaRequire() {
     ])
 }
 
-function visit(ast, throwFunctionDeclarationError) {
+function transformAst(ast, throwFunctionDeclarationError) {
     const visitor = {
         FunctionDeclaration(path) {
             throwFunctionDeclarationError(path)
@@ -65,22 +65,27 @@ function compile(sourceText) {
             `steph does not allow function declarations (yet?). Use a arrow functions\n${errorText}`
         )
     }
-    visit(ast, throwFunctionDeclarationError)
+    transformAst(ast, throwFunctionDeclarationError)
     return generator(ast).code
+}
+
+module.exports = {
+    transformAst,
+    createRamdaRequire
 }
 
 function main() {
     const code = `
         import a from './lame'
         const b = require('stupid')
-        
+
         /*function someFunc(a, b) {
             prop('a')
         }*/
-        
+
         const moreFunc = (a) => (b) => prop('a')
     `
     console.log(compile(code))
 }
 
-main()
+// main()
