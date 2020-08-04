@@ -4,7 +4,7 @@ const babelTypes = require('@babel/types')
 const generator = require('@babel/generator').default
 const { codeFrameColumns } = require('@babel/code-frame')
 const R = require('ramda')
-const { includes, keys, defaultTo } = R
+const { includes, keys, defaultTo, cond, always, equals } = R
 
 const RamdaImport = {
     node: 'node',
@@ -50,18 +50,11 @@ function ramdaEs6Import() {
     )
 }
 
-function ramdaImportAst(ramdaImportType) {
-    if (ramdaImportType === RamdaImport.none) {
-        return null
-    }
-    if (ramdaImportType === RamdaImport.node) {
-        return ramdaRequireImport()
-    }
-    if (ramdaImportType === RamdaImport.es6) {
-        return ramdaEs6Import()
-    }
-    throw new Error(`Unknown ramda import type: ${ramdaImportType}`)
-}
+const ramdaImportAst = cond([
+    [equals(RamdaImport.none), always(null)],
+    [equals(RamdaImport.node), ramdaRequireImport],
+    [equals(RamdaImport.es6), ramdaEs6Import]
+])
 
 function compile(sourceText, ramdaImport) {
     const ast = parser.parse(sourceText, { sourceType: 'module' })
