@@ -3324,6 +3324,8 @@ resolve@^1.10.0:
     eslint-plugin-prettier: ^3.1.4
     prettier: ^2.0.5
     ramda: ^0.27.0
+  bin:
+    steph: ./src/cli.js
   languageName: unknown
   linkType: soft
 

@@ -5,6 +5,9 @@
     "lint:fix": "eslint --fix ./test/**/* ./src/**/*",
     "lint": "eslint ./test/**/* ./src/**/*"
   },
+  "bin": {
+    "steph": "./src/cli.js"
+  },
   "devDependencies": {
     "ava": "^3.11.0",
     "eslint": "^7.5.0",
