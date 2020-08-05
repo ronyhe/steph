@@ -8,7 +8,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn check"
+      "pre-push": "yarn check"
     }
   },
   "bin": {
