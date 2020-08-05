@@ -46,6 +46,7 @@ Arrow functions are fine (`() => {}`) and so are function expressions `function 
 
 ## Future steps
 - Create a babel plugin
+- Better cli
 - Think of cool stuff to do with this
 
 ## Thanks
