@@ -1,7 +1,7 @@
-# steph-js
+# Steph - Ramda Style JS
 Do you like Ramda style js?
 Me too, in fact, I kinda hate js without it.
-steph-js is a (spicy) javascript flavor that enables such a style.
+Steph is a (spicy) javascript flavor that enables such a style.
 
 ## Ramda as a standard library
 Ramda is always in scope
@@ -38,8 +38,8 @@ steph performs a babel traversal which performs the following transformations:
 This has the following implications:
 - Function are curried by default
 - Ramda acts as a sort of standard library
-- Most js files that babel can compile are valid steph. You can use your usual IDE.
-- JS interop isn't handled yet. Right now, you can freely call steph from js and vice-versa, 
+- Most js files that babel can compile are valid Steph. You can use your usual IDE.
+- JS interop isn't handled yet. Right now, you can freely call Steph from js and vice-versa, 
 but js functions will not be curried.
 - Classic-style function declarations are not allowed.
 Arrow functions are fine (`() => {}`) and so are function expressions `function () {}`. However, this will throw an error at compile time: `function name() {}`
