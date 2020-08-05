@@ -29,5 +29,8 @@
     "@babel/types": "^7.11.0",
     "husky": "^4.2.5",
     "ramda": "^0.27.0"
-  }
+  },
+  "author": "ronyhe",
+  "homepage": "https://github.com/ronyhe/steph",
+  "license": "MIT"
 }
