@@ -50,7 +50,7 @@ Arrow functions are fine (`() => {}`) and so are function expressions `function 
 
 ## Future steps
 - Create a babel plugin
-- Improve cli code, possibly using a library
+- Improve cli code, possibly using a library. Add standard cli features.
 - Consider adding literals for basic Ramda functions such as `prop`, `path` and `index`.
 - Think of cool stuff to do with this
 
