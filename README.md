@@ -43,8 +43,8 @@ This has the following implications:
 - Functions are curried by default
 - Ramda acts as a sort of standard library
 - Most js files that babel can compile are valid Steph. You can use your usual IDE.
-- JS interop isn't handled yet. Right now, you can freely call Steph from js and vice-versa, 
-but js functions will not be curried.
+- JS interop isn't handled (yet?). You can freely call Steph from js and vice-versa, 
+but js functions will not be curried automatically.
 - Classic-style function declarations are not allowed.
 Arrow functions are fine (`() => {}`) and so are function expressions `function () {}`. However, this will throw an error at compile time: `function name() {}`
 
