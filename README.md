@@ -1,3 +1,4 @@
+[![npm version](https://badge.fury.io/js/steph-js.svg)](https://badge.fury.io/js/steph-js)
 # Steph - Ramda Style JS
 Do you like Ramda style js?
 Me too, in fact, I kinda hate js without it.
