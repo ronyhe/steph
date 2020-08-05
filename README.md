@@ -47,12 +47,19 @@ Arrow functions are fine (`() => {}`) and so are function expressions `function 
 ## Future steps
 - Create a babel plugin
 - Better cli
+- Consider adding literals for basic Ramda functions such as `prop`, `path` and `index`.
 - Think of cool stuff to do with this
 
-## Thanks
+## Acknowledgement
 Thanks a lot to:
 - babel - Great code, great libs and great error messages!
-- yarn - I used yarn2 for this project - it was a great experience!
 - Ramda - Thanks for showing me that js can be beautiful!
 - @idok and @yuvalnissan - 
 They're my bosses at wix.com and they're great! Plus, wix.com is a great company to work for, IMO.
+- This projects is developed using, among others:
+    - node
+    - yarn
+    - ava
+    - husky
+    - eslint
+    - prettier
