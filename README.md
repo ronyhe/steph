@@ -36,7 +36,7 @@ steph performs a babel traversal which performs the following transformations:
 - Convert unbound identifiers that exist in Ramda into a `R.` member access
 
 This has the following implications:
-- Function are curried by default
+- Functions are curried by default
 - Ramda acts as a sort of standard library
 - Most js files that babel can compile are valid Steph. You can use your usual IDE.
 - JS interop isn't handled yet. Right now, you can freely call Steph from js and vice-versa, 
@@ -46,7 +46,7 @@ Arrow functions are fine (`() => {}`) and so are function expressions `function 
 
 ## Future steps
 - Create a babel plugin
-- Better cli
+- Improve cli code, possibly using a library
 - Consider adding literals for basic Ramda functions such as `prop`, `path` and `index`.
 - Think of cool stuff to do with this
 
