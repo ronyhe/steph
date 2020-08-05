@@ -3,6 +3,10 @@ Do you like Ramda style js?
 Me too, in fact, I kinda hate js without it.
 Steph is a (spicy) javascript flavor that enables such a style.
 
+If you're wondering why that's useful I recommend reading these articles:
+- [Why Ramda?](https://fr.umio.us/why-ramda/)
+- [Thinking in Ramda](https://randycoulman.com/blog/2016/05/24/thinking-in-ramda-getting-started/)
+
 ## Ramda as a standard library
 Ramda is always in scope
 ```javascript
