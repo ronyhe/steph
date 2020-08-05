@@ -1,7 +1,7 @@
 const {
     drop,
     includes,
-    all,
+    any,
     isEmpty,
     join,
     head,
@@ -24,7 +24,7 @@ function main() {
         help()
         return
     }
-    if (all(flipIncludes(TriggerHelp), args)) {
+    if (any(flipIncludes(TriggerHelp), args)) {
         help()
         return
     }
@@ -59,7 +59,7 @@ function help() {
     const text = join('\n', [
         'The steph compiler v0.0.1',
         '',
-        'Usage: steph <file> [option]',
+        'Usage: steph <file> [options]',
         'options:',
         '   -v --version Trigger this help message',
         '   -h --help Trigger this help message',
