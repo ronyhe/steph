@@ -52,14 +52,14 @@ Arrow functions are fine (`() => {}`) and so are function expressions `function 
 
 ## Acknowledgement
 Thanks a lot to:
-- babel - Great code, great libs and great error messages!
-- Ramda - Thanks for showing me that js can be beautiful!
-- @idok and @yuvalnissan - 
-They're my bosses at wix.com and they're great! Plus, wix.com is a great company to work for, IMO.
-- This projects is developed using, among others:
-    - node
-    - yarn
-    - ava
-    - husky
-    - eslint
-    - prettier
+- [babel](https://babeljs.io/) - Great code, great libs and great error messages!
+- [Ramda](https://ramdajs.com/) - Thanks for showing me that js can be beautiful!
+- [@idok](https://github.com/idok) and [@yuvalnissan](https://github.com/yuvalnissan) - 
+They're my bosses at wix.com and they're great! Plus, [wix.com](https://www.wix.com/jobs/home) is a great company to work for, IMO.
+- This project is developed using, among others:
+    - [node](https://nodejs.org/en/)
+    - [yarn](https://yarnpkg.com/)
+    - [ava](https://github.com/avajs/ava)
+    - [husky](https://github.com/typicode/husky)
+    - [eslint](https://eslint.org/)
+    - [prettier](https://prettier.io/)
