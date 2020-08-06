@@ -71,11 +71,7 @@ function compile(sourceText, ramdaImport) {
             }
         },
         FunctionDeclaration(path) {
-            const errorText = codeFrameColumns(
-                sourceText,
-                path.node.loc,
-                'steph does not allow function declarations (yet?). Use a arrow functions'
-            )
+            const errorText = codeFrameColumns(sourceText, path.node.loc)
             throw new Error(
                 `steph does not allow function declarations (yet?). Use a arrow functions\n${errorText}`
             )
