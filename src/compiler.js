@@ -1,8 +1,5 @@
-const parser = require('@babel/parser')
-const traverse = require('@babel/traverse').default
+const { transformSync } = require('@babel/core')
 const t = require('@babel/types')
-const generator = require('@babel/generator').default
-const { codeFrameColumns } = require('@babel/code-frame')
 const R = require('ramda')
 const { includes, keys, cond, always, equals } = R
 
@@ -52,32 +49,36 @@ const ramdaImportAst = cond([
     [equals(RamdaImport.es6), ramdaEs6Import]
 ])
 
-function compile(sourceText, ramdaImport) {
-    const ast = parser.parse(sourceText, { sourceType: 'module' })
-    traverse(ast, {
-        FunctionExpression: CurryVisitor,
-        ArrowFunctionExpression: CurryVisitor,
-        Identifier(path) {
-            const name = path.node.name
-            if (!path.scope.hasBinding(name) && includes(name, keys(R))) {
-                path.replaceWith(createRamdaMember(name))
-                path.skip()
+const plugin = () => {
+    return {
+        visitor: {
+            FunctionExpression: CurryVisitor,
+            ArrowFunctionExpression: CurryVisitor,
+            Identifier(path) {
+                const name = path.node.name
+                if (!path.scope.hasBinding(name) && includes(name, keys(R))) {
+                    path.replaceWith(createRamdaMember(name))
+                    path.skip()
+                }
+            },
+            Program: {
+                exit(path, state) {
+                    const importAst = ramdaImportAst(state.opts.ramdaImport)
+                    path.node.body.unshift(importAst)
+                }
+            },
+            FunctionDeclaration(path) {
+                throw path.buildCodeFrameError(
+                    'steph does not allow function declarations (yet?). Use a arrow functions'
+                )
             }
-        },
-        Program: {
-            exit(path) {
-                const importAst = ramdaImportAst(ramdaImport)
-                path.node.body.unshift(importAst)
-            }
-        },
-        FunctionDeclaration(path) {
-            const errorText = codeFrameColumns(sourceText, path.node.loc)
-            throw new Error(
-                `steph does not allow function declarations (yet?). Use a arrow functions\n${errorText}`
-            )
         }
-    })
-    return generator(ast).code
+    }
+}
+
+function compile(sourceText, ramdaImport) {
+    return transformSync(sourceText, { plugins: [[plugin, { ramdaImport }]] })
+        .code
 }
 
 module.exports = {
