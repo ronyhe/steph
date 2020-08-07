@@ -1,2 +1,2 @@
-const { compile, RamdaImport, plugin } = require('./src/compiler')
-module.exports = { compile, RamdaImport, plugin }
+const { plugin } = require('./src/compiler')
+module.exports = plugin
