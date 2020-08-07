@@ -23,6 +23,17 @@ console.log(myEquals5(5)) // => true
 console.log(myEquals5(666)) // => false
 ```
 
+## Installation
+Steph is published to npm.
+With yarn:
+```shell script
+yarn add steph-js
+```
+With npm:
+```shell script
+npm install steph-js
+```
+
 ## Command line
 The following command will compile and print the js version of `file-to-compile` 
 ```shell script
@@ -34,6 +45,11 @@ For example, you can pipe straight to node like so:
 ```shell script
 steph file-to-compile -ri node | node -
 ``` 
+Specifying `-` as the file will read the source from stdin.
+For example, the following command will print `6`
+```shell script
+echo "console.log(add(5)(1))" | steph - -ri node | node -
+```
 
 ## Implementation
 steph performs a babel traversal which performs the following transformations:
