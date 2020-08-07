@@ -32,7 +32,8 @@ function main() {
         help()
         return
     }
-    const file = head(args)
+    const fileArg = head(args)
+    const file = fileArg === '-' ? process.stdin.fd : fileArg
     const importStyle = ramdaImport(args)
 
     const sourceText = fs.readFileSync(file, { encoding: 'utf8' })
