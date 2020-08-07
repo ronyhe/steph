@@ -1,6 +1,5 @@
 {
   "name": "steph-js",
-  "main": "./src/index.js",
   "scripts": {
     "test": "ava ./test/**/*.spec.js --verbose",
     "lint:fix": "eslint --fix ./test/**/* ./src/**/*",
