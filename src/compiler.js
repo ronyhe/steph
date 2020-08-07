@@ -3,6 +3,9 @@ const t = require('@babel/types')
 const R = require('ramda')
 const { includes, keys, cond, always, equals } = R
 
+const FunctionDeclarationError =
+    'steph does not allow function declarations (yet?). Use a arrow functions instead'
+
 const RamdaImport = {
     node: '<RamdaImport:node>',
     es6: '<RamdaImport:es6>',
@@ -68,9 +71,7 @@ const plugin = () => {
                 }
             },
             FunctionDeclaration(path) {
-                throw path.buildCodeFrameError(
-                    'steph does not allow function declarations (yet?). Use a arrow functions'
-                )
+                throw path.buildCodeFrameError(FunctionDeclarationError)
             }
         }
     }
@@ -83,5 +84,6 @@ function compile(sourceText, ramdaImport) {
 
 module.exports = {
     compile,
-    RamdaImport
+    RamdaImport,
+    FunctionDeclarationError
 }

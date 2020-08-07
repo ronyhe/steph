@@ -1,5 +1,9 @@
 const test = require('ava')
-const { compile, RamdaImport } = require('../src/compiler')
+const {
+    compile,
+    RamdaImport,
+    FunctionDeclarationError
+} = require('../src/compiler')
 
 test('Binds unbound variables to ramda, if they exist there', t => {
     compileTest(t, 'prop', 'R.prop;')
@@ -30,7 +34,8 @@ test('Curries function expressions', t => {
 })
 
 test('Throws an error on function declarations', t => {
-    t.throws(() => compile('function fn() {}'))
+    const error = t.throws(() => compile('function fn() {}'))
+    t.assert(error.message.includes(FunctionDeclarationError))
 })
 
 test('Adds ramda require when ramdaImport is set to "node"', t => {
