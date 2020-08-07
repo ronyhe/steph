@@ -86,5 +86,6 @@ function compile(sourceText, ramdaImport) {
 module.exports = {
     compile,
     RamdaImport,
-    FunctionDeclarationError
+    FunctionDeclarationError,
+    plugin
 }
