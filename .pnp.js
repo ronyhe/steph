@@ -34,10 +34,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:7.11.1"
       ],
       [
-        "@babel/types",
-        "npm:7.11.0"
-      ],
-      [
         "ava",
         "npm:3.11.0"
       ],
@@ -74,7 +70,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",
           "packageDependencies": [
             ["@babel/core", "npm:7.11.1"],
-            ["@babel/types", "npm:7.11.0"],
             ["ava", "npm:3.11.0"],
             ["eslint", "npm:7.5.0"],
             ["eslint-config-prettier", "virtual:d7ac7786f4cfdcc93d9576a2ff2e876a4b24f98867a96dee5b3dcfb23574f40218368c181b23e27d064cd4862d7c4c80683b8d6162272c51ad1d388e0298984c#npm:6.11.0"],
@@ -4059,7 +4054,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["steph-js", "workspace:."],
             ["@babel/core", "npm:7.11.1"],
-            ["@babel/types", "npm:7.11.0"],
             ["ava", "npm:3.11.0"],
             ["eslint", "npm:7.5.0"],
             ["eslint-config-prettier", "virtual:d7ac7786f4cfdcc93d9576a2ff2e876a4b24f98867a96dee5b3dcfb23574f40218368c181b23e27d064cd4862d7c4c80683b8d6162272c51ad1d388e0298984c#npm:6.11.0"],

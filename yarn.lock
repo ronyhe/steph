@@ -3529,7 +3529,6 @@ fsevents@~2.1.2:
   resolution: "steph-js@workspace:."
   dependencies:
     "@babel/core": ^7.11.1
-    "@babel/types": ^7.11.0
     ava: ^3.11.0
     eslint: ^7.5.0
     eslint-config-prettier: ^6.11.0

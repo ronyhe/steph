@@ -1,5 +1,4 @@
 const { transformSync } = require('@babel/core')
-const t = require('@babel/types')
 const R = require('ramda')
 const { includes, keys, cond, always, equals } = R
 
@@ -12,61 +11,65 @@ const RamdaImport = {
     none: '<RamdaImport:none>'
 }
 
-const CurryVisitor = {
-    exit: path => {
-        path.replaceWith(createCurriedFunction(path.node))
-        path.skip()
+const createSyntax = t => {
+    const ramdaMember = name =>
+        t.memberExpression(t.identifier('R'), t.identifier(name))
+    return {
+        ramdaMember,
+        curriedFunction: originalFunction =>
+            t.callExpression(ramdaMember('curry'), [originalFunction]),
+        ramdaEs6Import: () =>
+            t.importDeclaration(
+                [t.importNamespaceSpecifier(t.identifier('R'))],
+                t.stringLiteral('ramda')
+            ),
+        ramdaRequireImport: () =>
+            t.variableDeclaration('const', [
+                t.variableDeclarator(
+                    t.identifier('R'),
+                    t.callExpression(t.identifier('require'), [
+                        t.stringLiteral('ramda')
+                    ])
+                )
+            ])
     }
 }
 
-function createCurriedFunction(originalFunction) {
-    const ramdaCurry = createRamdaMember('curry')
-    return t.callExpression(ramdaCurry, [originalFunction])
-}
-
-function createRamdaMember(name) {
-    return t.memberExpression(t.identifier('R'), t.identifier(name))
-}
-
-function ramdaRequireImport() {
-    return t.variableDeclaration('const', [
-        t.variableDeclarator(
-            t.identifier('R'),
-            t.callExpression(t.identifier('require'), [
-                t.stringLiteral('ramda')
-            ])
-        )
+const ramdaImportAst = syntax =>
+    cond([
+        [equals(RamdaImport.none), always(null)],
+        [equals(RamdaImport.node), syntax.ramdaRequireImport],
+        [equals(RamdaImport.es6), syntax.ramdaEs6Import]
     ])
-}
 
-function ramdaEs6Import() {
-    return t.importDeclaration(
-        [t.importNamespaceSpecifier(t.identifier('R'))],
-        t.stringLiteral('ramda')
-    )
-}
-
-const ramdaImportAst = cond([
-    [equals(RamdaImport.none), always(null)],
-    [equals(RamdaImport.node), ramdaRequireImport],
-    [equals(RamdaImport.es6), ramdaEs6Import]
-])
-
-const plugin = () => {
+const plugin = ({ types }) => {
+    const syntax = createSyntax(types)
     return {
         visitor: {
-            FunctionExpression: CurryVisitor,
-            ArrowFunctionExpression: CurryVisitor,
+            FunctionExpression: {
+                exit: path => {
+                    path.replaceWith(syntax.curriedFunction(path.node))
+                    path.skip()
+                }
+            },
+            ArrowFunctionExpression: {
+                exit: path => {
+                    path.replaceWith(syntax.curriedFunction(path.node))
+                    path.skip()
+                }
+            },
             Identifier(path) {
                 const name = path.node.name
                 if (!path.scope.hasBinding(name) && includes(name, keys(R))) {
-                    path.replaceWith(createRamdaMember(name))
+                    path.replaceWith(syntax.ramdaMember(name))
                     path.skip()
                 }
             },
             Program: {
                 exit(path, state) {
-                    const importAst = ramdaImportAst(state.opts.ramdaImport)
+                    const importAst = ramdaImportAst(syntax)(
+                        state.opts.ramdaImport
+                    )
                     path.node.body.unshift(importAst)
                 }
             },
