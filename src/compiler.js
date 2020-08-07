@@ -1,15 +1,23 @@
 const { transformSync } = require('@babel/core')
 const R = require('ramda')
-const { includes, keys, cond, always, equals } = R
+const { includes, keys, pipe, toLower, defaultTo, flip, prop } = R
 
 const FunctionDeclarationError =
     'steph does not allow function declarations (yet?). Use a arrow functions instead'
 
 const RamdaImport = {
-    node: '<RamdaImport:node>',
-    es6: '<RamdaImport:es6>',
-    none: '<RamdaImport:none>'
+    node: 'node',
+    es6: 'es6',
+    none: 'none'
 }
+
+const getFrom = flip(prop)
+
+const ramdaImportFromString = pipe(
+    toLower,
+    getFrom(RamdaImport),
+    defaultTo(RamdaImport.none)
+)
 
 const createSyntax = t => {
     const ramdaMember = name =>
@@ -35,13 +43,6 @@ const createSyntax = t => {
     }
 }
 
-const ramdaImportAst = syntax =>
-    cond([
-        [equals(RamdaImport.none), always(null)],
-        [equals(RamdaImport.node), syntax.ramdaRequireImport],
-        [equals(RamdaImport.es6), syntax.ramdaEs6Import]
-    ])
-
 const createCurryVisitor = syntax => ({
     exit: path => {
         path.replaceWith(syntax.curriedFunction(path.node))
@@ -65,10 +66,15 @@ const plugin = ({ types }) => {
             },
             Program: {
                 exit(path, state) {
-                    const importAst = ramdaImportAst(syntax)(
+                    const importType = ramdaImportFromString(
                         state.opts.ramdaImport
                     )
-                    path.node.body.unshift(importAst)
+                    if (importType === RamdaImport.node) {
+                        path.node.body.unshift(syntax.ramdaRequireImport())
+                    }
+                    if (importType === RamdaImport.es6) {
+                        path.node.body.unshift(syntax.ramdaEs6Import())
+                    }
                 }
             },
             FunctionDeclaration(path) {
