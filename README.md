@@ -66,8 +66,8 @@ but js functions will not be curried automatically.
 Arrow functions are fine (`() => {}`) and so are function expressions `function () {}`. However, this will throw an error at compile time: `function name() {}`
 
 ## Future steps
-- Create a babel plugin
 - Improve cli code, possibly using a library. Add standard cli features.
+- Create a separate babel plugin package.
 - Consider adding literals for basic Ramda functions such as `prop`, `path` and `index`.
 - Think of cool stuff to do with this
 
