@@ -42,22 +42,20 @@ const ramdaImportAst = syntax =>
         [equals(RamdaImport.es6), syntax.ramdaEs6Import]
     ])
 
+const createCurryVisitor = syntax => ({
+    exit: path => {
+        path.replaceWith(syntax.curriedFunction(path.node))
+        path.skip()
+    }
+})
+
 const plugin = ({ types }) => {
     const syntax = createSyntax(types)
+    const curryVisitor = createCurryVisitor(syntax)
     return {
         visitor: {
-            FunctionExpression: {
-                exit: path => {
-                    path.replaceWith(syntax.curriedFunction(path.node))
-                    path.skip()
-                }
-            },
-            ArrowFunctionExpression: {
-                exit: path => {
-                    path.replaceWith(syntax.curriedFunction(path.node))
-                    path.skip()
-                }
-            },
+            FunctionExpression: curryVisitor,
+            ArrowFunctionExpression: curryVisitor,
             Identifier(path) {
                 const name = path.node.name
                 if (!path.scope.hasBinding(name) && includes(name, keys(R))) {
