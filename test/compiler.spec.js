@@ -17,6 +17,11 @@ test('Does not bind variables that are already bound. Even if they exist in ramd
     compileTest(t, 'const prop = null;prop;', 'const prop = null;\nprop;')
 })
 
+test('Does not bind object keys to ramda', t => {
+    const text = 'const a = {\n  map: "just some text"\n};'
+    compileTest(t, text, text)
+})
+
 test('Curries arrow functions', t => {
     compileTest(t, '() => {}', 'R.curry(() => {});')
     compileTest(t, '(a) => {}', 'R.curry(a => {});')

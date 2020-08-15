@@ -59,7 +59,11 @@ const plugin = ({ types }) => {
             ArrowFunctionExpression: curryVisitor,
             Identifier(path) {
                 const name = path.node.name
-                if (!path.scope.hasBinding(name) && includes(name, keys(R))) {
+                if (
+                    !path.scope.hasBinding(name) &&
+                    path.container.type !== 'ObjectProperty' &&
+                    includes(name, keys(R))
+                ) {
                     path.replaceWith(syntax.ramdaMember(name))
                     path.skip()
                 }
