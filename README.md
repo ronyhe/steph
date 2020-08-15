@@ -65,10 +65,60 @@ but js functions will not be curried automatically.
 - Classic-style function declarations are not allowed.
 Arrow functions are fine (`() => {}`) and so are function expressions `function () {}`. However, this will throw an error at compile time: `function name() {}`
 
+## Setting up a project
+### Using the babel plugin
+First install the dependencies:
+```shell script
+yarn add -D steph-js babel-plugin-steph-js ramda
+```
+Then add an override to your `.babelrc.json`:
+```json5
+{
+  "overrides": [
+    {
+      "test": "**/*.steph.js",
+      "plugins": [
+        ["babel-plugin-steph-js", {
+          "ramdaImport": "none"  // See the command line section for more import options
+        }]
+      ]
+    }
+  ]
+}
+```
+
+### Using the eslint plugin
+If you're using eslint then, depending on your configuration, 
+it might complain that the Ramda functions aren't declared.
+You can use `eslint-plugin-ramda-env` to add them your global scope.
+Assuming Ramda is already installed, start by installing the plugin:
+```shell script
+yarn add -D eslint-plugin-ramda-env
+```
+In your `.eslintrc.json` file, add the plugin to the plugins list:
+```json
+{"plugins": ["ramda-env"]}
+```
+Then use it in the `overrides` section:
+```json
+{
+    "overrides": [
+        {
+          "files": ["*.steph.js"],
+          "env": {
+            "ramda-env/ramda": true
+          }
+        }
+      ]
+}
+```
+This plugin only exports the Ramda environment, 
+if you want actual linting, check out: https://github.com/ramda/eslint-plugin-ramda
+
+
 ## Future steps
 - Improve cli code, possibly using a library. Add standard cli features.
-- Create a separate babel plugin package.
-- Add recommended configs for client projects (eslint, babelrc, etc)
+- Add example project that uses steph
 - Consider adding literals for basic Ramda functions such as `prop`, `path` and `index`.
 - Think of cool stuff to do with this
 
