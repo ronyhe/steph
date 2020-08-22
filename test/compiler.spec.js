@@ -23,6 +23,10 @@ test('Does not bind object keys to ramda', t => {
     compileTest(t, text, text)
 })
 
+test('Does not bind members to ramda even if they exist there', t => {
+    compileTest(t, 'const a = b.length', 'const a = b.length')
+})
+
 test('Curries arrow functions', t => {
     compileTest(t, '() => {}', 'R.curry(() => {});')
     compileTest(t, '(a) => {}', 'R.curry(a => {});')

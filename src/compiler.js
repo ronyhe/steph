@@ -62,6 +62,7 @@ const plugin = ({ types }) => {
                 if (
                     !path.scope.hasBinding(name) &&
                     path.container.type !== 'ObjectProperty' &&
+                    path.parent.type !== 'MemberExpression' &&
                     includes(name, keys(R))
                 ) {
                     path.replaceWith(syntax.ramdaMember(name))
