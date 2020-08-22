@@ -1,4 +1,5 @@
 const test = require('ava')
+const { transformSync } = require('@babel/core')
 const {
     compile,
     RamdaImport,
@@ -54,9 +55,14 @@ test('Adds ramda import according to the ramdaImport parameter', t => {
 })
 
 function compileTest(t, sourceText, expectedOutput) {
-    t.deepEqual(compile(sourceText, RamdaImport.none), expectedOutput)
+    const actual = compact(compile(sourceText, RamdaImport.none))
+    t.deepEqual(actual, compact(expectedOutput))
 }
 
 function importTest(t, importType, expectedOutput) {
     t.deepEqual(compile('', importType), expectedOutput)
+}
+
+function compact(text) {
+    return transformSync(text, { compact: true }).code
 }
